@@ -130,7 +130,7 @@ body > div {
     margin: 5px 0;
     background: #eee;
     }
-.layers a:hover, .layers a:focus {
+.layers a:hover, .layers a:focus, .layers a.active {
     background: #369;
     color: white;
     }

@@ -13,10 +13,23 @@ MB.map = function(el, l) {
             new MM.Location(l.center.lat, l.center.lon), 
             l.center.zoom
         );
-        wax.mm.zoomer(MB.maps[el]).appendTo(MB.maps[el].parent);
+
         wax.mm.attribution(MB.maps[el], t).appendTo(MB.maps[el].parent);
+        
+        if ($.inArray('zoomer',l.features) >= 0) {
+            wax.mm.zoomer(MB.maps[el]).appendTo(MB.maps[el].parent);        
+        }
+        
+        if ($.inArray('interaction',l.features) >= 0) {
+            MB.maps[el].interaction = wax.mm.interaction()
+                .map(MB.maps[el])
+                .tilejson(t)
+                .on(wax.movetip()
+                    .parent(MB.maps[el].parent)
+                    .events()
+                );
+        }
     });
-    
 };
 
 MB.refresh = function(m, l) {
@@ -24,6 +37,7 @@ MB.refresh = function(m, l) {
     if (l.id) {
         wax.tilejson(MB.api(l), function(t) {
             MB.maps[m].setLayerAt(0, new wax.mm.connector(t));
+            MB.maps[m].interaction.tilejson(t);
         });
     }
 
@@ -42,13 +56,15 @@ MB.refresh = function(m, l) {
     }
 };
 
-MB.layers = function(el, m, layers, multi) {
+MB.layers = function(el, m, layers) {
     $.each(layers, function(i, l) {
         $('#' + el).append($('<a href="#">' + l.name + '</a>')
             .attr('id', 'layer-' + i)
             .addClass('layer')
             .click(function(e) {
                 e.preventDefault();
+                $('#' + el + ' .layer').removeClass('active');
+                $(this).addClass('active');
                 MB.refresh(m, l);
             })
         );

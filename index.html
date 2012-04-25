@@ -39,7 +39,10 @@
                 lon: -77.012937037187,
                 zoom: 14
             },
-            features: {}
+            features: [
+                'interaction',
+                'zoomer'
+            ]
         });
         
         // Make a new layer switch in #nav for `map`
@@ -60,7 +63,8 @@
                 center: {
                     lat: 38.9,
                     lon: -77,
-                    ease: 500
+                    zoom: 15,
+                    ease: 5000
                 }
             },
             {
