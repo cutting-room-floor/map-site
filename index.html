@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Map Site</title>
+    <link rel="stylesheet" href="ext/wax/theme/controls.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="shortcut icon" href="http://mapbox.com/images/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    <div id="header"><div class="limiter">
+        <img src="logo.png">
+        <h1>Map Site</h1>
+    </div></div>
+    <div id="content">
+        <div id="about">
+            <p>Map Site is a full-screen template for designing simple web pages that show of the beautiful maps you make with MapBox. It's part of MapBox's Telling Stories with Maps feature.</p>
+        </div>
+        <h2>Select a layer:</h2>
+        <div id="nav" class="layers"></div>
+    </div>
+    <div id="map"></div>
+    
+    <!-- External libraries and site script -->
+    <script src="ext/jquery/dist/jquery.min.js"></script>
+    <script src="ext/modestmaps-js/modestmaps.min.js"></script>
+    <script src="ext/wax/dist/wax.mm.min.js"></script>
+    <script src="ext/easey/src/easey.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- Site configuration -->
+    <script type="text/javascript">
+    
+        // Make a new map in #map
+        new MB.map('map', {
+            id: 'mapbox.mapbox-light',
+            center: {
+                lat: 38.913793178492,
+                lon: -77.012937037187,
+                zoom: 14
+            },
+            features: {}
+        });
+        
+        // Make a new layer switch in #nav for `map`
+        new MB.layers('nav', 'map', [
+            {
+                name: 'Donors',
+                id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don',
+                center: {
+                    lat: 38.913793178492,
+                    lon: -77.02,
+                    zoom: 13,
+                    ease: 500
+                }
+            },
+            {
+                name: 'Recipients',
+                id: 'mapbox.mapbox-light,awidercircle.awc-addresses-rec',
+                center: {
+                    lat: 38.9,
+                    lon: -77,
+                    ease: 500
+                }
+            },
+            {
+                name: 'Both',
+                id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec'
+            }
+        ]);
+    </script>
+</body>
+</html>
