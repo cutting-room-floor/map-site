@@ -8,16 +8,18 @@
     <link rel="shortcut icon" href="http://mapbox.com/images/favicon.ico" type="image/x-icon" />
 </head>
 <body>
-    <div id="header"><div class="limiter">
+    <div id="header">
         <img src="logo.png">
         <h1>Map Site</h1>
-    </div></div>
+    </div>
     <div id="content">
         <div id="about">
             <p>Map Site is a full-screen template for designing simple web pages that show of the beautiful maps you make with MapBox. It's part of MapBox's Telling Stories with Maps feature.</p>
         </div>
-        <h2>Select a layer:</h2>
+        <label>Select a layer:</label>
         <div id="nav" class="layers"></div>
+        <h2>The full story</h2>
+        <p>Or browse the story with inline navigation. <a id="donors" href="#">See the donors</a> in NW DC.</p> Then move <a id="recipients" href="#">south east</a> to see where donations flow. Finally, zoom out to <a id="zip" href="#">see the regional impact</a>.
     </div>
     <div id="map"></div>
     
@@ -35,13 +37,14 @@
         new MB.map('map', {
             id: 'mapbox.mapbox-light',
             center: {
-                lat: 38.913793178492,
-                lon: -77.012937037187,
+                lat: 38.8850033656251,
+                lon: -77.01439615889109,
                 zoom: 14
             },
             features: [
-                'interaction',
-                'zoomer'
+                'tooltip',
+                'zoomer',
+                'legend'
             ]
         });
         
@@ -50,26 +53,45 @@
             {
                 name: 'Donors',
                 id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don',
+                el: 'donors',
                 center: {
                     lat: 38.913793178492,
                     lon: -77.02,
                     zoom: 13,
-                    ease: 500
+                    ease: 1000
                 }
             },
             {
                 name: 'Recipients',
                 id: 'mapbox.mapbox-light,awidercircle.awc-addresses-rec',
+                el: 'recipients',
                 center: {
-                    lat: 38.9,
-                    lon: -77,
-                    zoom: 15,
-                    ease: 5000
+                    lat: 38.86585845552345,
+                    lon: -76.97635364532469,
+                    zoom: 14,
+                    ease: 2000
                 }
             },
             {
                 name: 'Both',
-                id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec'
+                id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec',
+                center: {
+                    lat: 38.90537696659096,
+                    lon: -76.94918823242188,
+                    zoom: 12,
+                    ease: 2000
+                }
+            },
+            {
+                name: 'ZIP codes',
+                id: 'mapbox.mapbox-light,awidercircle.awc_don_rec_zip08',
+                el: 'zip',
+                center: {
+                    lat: 38.954386336035995,
+                    lon: -76.91768981933593,
+                    zoom: 11,
+                    ease: 1000
+                }
             }
         ]);
     </script>
