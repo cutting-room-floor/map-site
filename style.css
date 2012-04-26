@@ -85,7 +85,7 @@ body > div {
     position: relative;
     z-index: 1;
     }
-#map {
+.map {
     position: absolute;
     top: 0;
     right: 0;
@@ -119,7 +119,7 @@ body > div {
     line-height: 30px;
     margin: 0;
     }
-.limiter {
+#header .limiter {
     width: 920px;
     margin: 0px auto;
     position: relative;
@@ -143,6 +143,7 @@ body > div {
     padding: 5px;
     margin: 5px 0;
     background: #eee;
+    max-width: 300px;
     }
 .layers a:hover, .layers a:focus, .layers a.active {
     background: #369;
@@ -175,9 +176,17 @@ a.zoomer {
     right: 350px;
     width: 290px;
     }
+.share {
+    top: 95px;
+    z-index: 2;
+    }
 
 /* Modes */
 
+/* Left */
+.left #header .limiter {
+    width: 480px;
+    }
 .left #content { 
     left: 0;
     right: auto;
@@ -185,14 +194,17 @@ a.zoomer {
     border-right: 1px solid #ccc;
     }
 .left .wax-attribution { 
-    left: auto;
-    right: 0;
+    left: 320px;
     }
 .left a.zoomin {
-    left: 350px;
+    left: 359px;
     }
 .left a.zoomout {
-    left: 380px;
+    left: 330px;
+    }
+.left .share {
+    left: 330px;
+    z-index: 2;
     }
 .left .wax-tooltip {
     right: 10px;
@@ -201,6 +213,59 @@ a.zoomer {
     right: 10px;
     }
 
+/* Hero */
+
+.hero .map {
+    top: 50px;
+    bottom: auto;
+    height: 400px;
+    }
+.hero #content { 
+    top: 450px;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #ccc;
+    width: auto;
+    }
+.hero #content .limiter {
+    width: 920px;
+    margin: 0px auto;
+    position: relative;
+    }
+.hero a.zoomer {
+    top: 10px;
+    }
+.hero .wax-tooltip {
+    top: 10px;
+    right: 10px;
+    }
+.hero .wax-legends {
+    right: 10px;
+    }
+.hero .share {
+    top: 45px;
+    }
+
+.hero .layers {
+    height: 36px;
+    }
+.hero .layer {
+    width: 200px;
+    float: left;
+    margin-right: 20px;
+    text-align: center;
+    }
+
+#layout {
+    z-index: 10;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    }
+#layout a { margin-left: 10px; }
 
 /* Animation */
 

@@ -8,7 +8,14 @@ MB.api = function(l) {
 
 MB.map = function(el, l) {
     wax.tilejson(MB.api(l), function(t) {
-        MB.maps[el] = new MM.Map(el, new wax.mm.connector(t));
+        var h = [
+            new MM.DragHandler,
+            new MM.DoubleClickHandler,
+            new MM.TouchHandler
+        ];
+        if ($.inArray('zoomwheel',l.features) >= 0) h.push(new MM.MouseWheelHandler);
+        
+        MB.maps[el] = new MM.Map(el, new wax.mm.connector(t), null, h);
         MB.maps[el].setCenterZoom(
             new MM.Location(l.center.lat, l.center.lon), 
             l.center.zoom
@@ -16,15 +23,19 @@ MB.map = function(el, l) {
 
         wax.mm.attribution(MB.maps[el], t).appendTo(MB.maps[el].parent);
         
-        if ($.inArray('zoomer',l.features) >= 0) {
+        if ($.inArray('zoompan',l.features) >= 0) {
             wax.mm.zoomer(MB.maps[el]).appendTo(MB.maps[el].parent);
         }
 
         if ($.inArray('legend',l.features) >= 0) {
             MB.maps[el].legend = wax.mm.legend(MB.maps[el], t).appendTo(MB.maps[el].parent);
         }
+
+        if ($.inArray('bwdetect',l.features) >= 0) {
+            wax.mm.bwdetect(MB.maps[el]);
+        }
         
-        if ($.inArray('tooltip',l.features) >= 0) {
+        if ($.inArray('tooltips',l.features) >= 0) {
             MB.maps[el].interaction = wax.mm.interaction()
                 .map(MB.maps[el])
                 .tilejson(t)
@@ -32,7 +43,7 @@ MB.map = function(el, l) {
                     .parent(MB.maps[el].parent)
                     .events()
                 );
-        } else if ($.inArray('movetip',l.features) >= 0) {
+        } else if ($.inArray('movetips',l.features) >= 0) {
             MB.maps[el].interaction = wax.mm.interaction()
                 .map(MB.maps[el])
                 .tilejson(t)
@@ -41,6 +52,13 @@ MB.map = function(el, l) {
                     .events()
                 );
         }
+
+        if ($.inArray('share',l.features) >= 0) {
+            console.log(MB.maps[el].parent);
+            
+            wax.mm.share(MB.maps[el], t).appendTo(MB.maps[el].parent);
+        }
+
     });
 };
 
@@ -100,5 +118,13 @@ MB.layers = function(el, m, layers) {
                 })
             );
         }
+    });
+};
+
+MB.layout = function() {
+    $('body').append('<div id="layout"><a href="#" id="right">right</a><a href="#" id="left">left</a><a href="#" id="hero">hero</a></div>');
+    $('#layout a').click(function(e) {
+        e.preventDefault();
+        $('body').removeClass().addClass($(this).attr('id'));
     });
 };
