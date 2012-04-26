@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="style.css" type="text/css" />
     <link rel="shortcut icon" href="http://mapbox.com/images/favicon.ico" type="image/x-icon" />
 </head>
-<body>
+<body class="right">
     <div id="header">
         <img src="logo.png">
-        <h1>Map Site</h1>
+        <h1>Exploring A Wider Circle Donations</h1>
     </div>
     <div id="content">
         <div id="about">
-            <p>Map Site is a full-screen template for designing simple web pages that show of the beautiful maps you make with MapBox. It's part of MapBox's Telling Stories with Maps feature.</p>
+            <p>The Neighbor-to-Neighbor Program provides furniture and other home items to families living without these basics.</p>
+            <p>Browse the map to see who we've helped.</p>
         </div>
-        <label>Select a layer:</label>
         <div id="nav" class="layers"></div>
         <h2>The full story</h2>
         <p>Or browse the story with inline navigation. <a id="donors" href="#">See the donors</a> in NW DC.</p> Then move <a id="recipients" href="#">south east</a> to see where donations flow. Finally, zoom out to <a id="zip" href="#">see the regional impact</a>.
@@ -44,7 +44,7 @@
             features: [
                 'tooltip',
                 'zoomer',
-                'legend'
+                'legend' // todo: bw, share, geocoder
             ]
         });
         
@@ -54,6 +54,7 @@
                 name: 'Donors',
                 id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don',
                 el: 'donors',
+                layer: 1,
                 center: {
                     lat: 38.913793178492,
                     lon: -77.02,
@@ -65,6 +66,7 @@
                 name: 'Recipients',
                 id: 'mapbox.mapbox-light,awidercircle.awc-addresses-rec',
                 el: 'recipients',
+                layer: 1,
                 center: {
                     lat: 38.86585845552345,
                     lon: -76.97635364532469,
@@ -75,6 +77,7 @@
             {
                 name: 'Both',
                 id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec',
+                layer: 1,
                 center: {
                     lat: 38.90537696659096,
                     lon: -76.94918823242188,
@@ -86,6 +89,7 @@
                 name: 'ZIP codes',
                 id: 'mapbox.mapbox-light,awidercircle.awc_don_rec_zip08',
                 el: 'zip',
+                layer: 1,
                 center: {
                     lat: 38.954386336035995,
                     lon: -76.91768981933593,

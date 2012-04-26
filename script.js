@@ -48,7 +48,12 @@ MB.refresh = function(m, l) {
 
     if (l.id) {
         wax.tilejson(MB.api(l), function(t) {
-            MB.maps[m].setLayerAt(0, new wax.mm.connector(t));
+            var layer = l.layer || 0;
+            try {
+                MB.maps[m].setLayerAt(layer, new wax.mm.connector(t));
+            } catch (e) {
+                MB.maps[m].insertLayerAt(layer, new wax.mm.connector(t));
+            }
             if (MB.maps[m].interaction) MB.maps[m].interaction.tilejson(t);
             if (MB.maps[m].legend) {
                 MB.maps[m].legend.content(t);
