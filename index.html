@@ -8,10 +8,10 @@
     <link rel="shortcut icon" href="http://mapbox.com/images/favicon.ico" type="image/x-icon" />
 </head>
 <body class="right">
-    <div id="header">
+    <div id="header"><div class="limiter">
         <img src="logo.png">
         <h1>Exploring A Wider Circle Donations</h1>
-    </div>
+    </div></div>
     <div id="content">
         <div id="about">
             <p>The Neighbor-to-Neighbor Program provides furniture and other home items to families living without these basics.</p>
@@ -42,7 +42,7 @@
                 zoom: 14
             },
             features: [
-                'tooltip',
+                'movetip',
                 'zoomer',
                 'legend' // todo: bw, share, geocoder
             ]
