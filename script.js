@@ -22,7 +22,7 @@ MB.map = function(el, l) {
         );
 
         wax.mm.attribution(MB.maps[el], t).appendTo(MB.maps[el].parent);
-        
+                
         if ($.inArray('zoompan',l.features) >= 0) {
             wax.mm.zoomer(MB.maps[el]).appendTo(MB.maps[el].parent);
         }
@@ -54,8 +54,6 @@ MB.map = function(el, l) {
         }
 
         if ($.inArray('share',l.features) >= 0) {
-            console.log(MB.maps[el].parent);
-            
             wax.mm.share(MB.maps[el], t).appendTo(MB.maps[el].parent);
         }
 
@@ -122,6 +120,8 @@ MB.layers = function(el, m, layers) {
 };
 
 MB.layout = function() {
+    if (location.hash === '#embed') $('body').removeClass().addClass('embed');
+    
     $('body').append('<div id="layout"><a href="#" id="right">right</a><a href="#" id="left">left</a><a href="#" id="hero">hero</a></div>');
     $('#layout a').click(function(e) {
         e.preventDefault();

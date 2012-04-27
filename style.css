@@ -258,6 +258,54 @@ a.zoomer {
     margin-right: 20px;
     text-align: center;
     }
+    
+/* embed */
+
+.embed .map {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: white;
+    z-index: 1000;
+    }
+.embed #header, .embed #content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10001;
+    visibility: hidden;
+    overflow: hidden;
+    }
+.embed a.zoomer {
+    top: 10px;
+    }
+.embed .wax-tooltip {
+    top: 10px;
+    right: 10px;
+    }
+.embed .wax-legends {
+    right: 10px;
+    }
+.embed .share {
+    top: 45px;
+    }
+.embed .layers {
+    position: absolute;
+    top: 90px;
+    left: 0;
+    z-index: 1001;
+    visibility: visible;
+    }
+.embed .layer {
+    width: 100px;
+    text-align: center;
+    border: 1px solid #ccc;
+    }
+.embed.sharing .layers {
+    visibility: hidden;
+    }
 
 #layout {
     z-index: 10;
