@@ -119,6 +119,12 @@ MB.layers = function(el, m, layers) {
     });
 };
 
+MB.geocoder = function(el, m, opt) {
+    $(el).append(
+        $('<form class="geocode"><input type="text"></form>')
+    );
+};
+
 MB.layout = function() {
     if (location.hash === '#embed') $('body').removeClass().addClass('embed');
     

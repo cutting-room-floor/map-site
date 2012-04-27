@@ -103,6 +103,12 @@
             }
         ]);
         
+        new MB.geocoder('search', 'map', {
+            service: 'mapquest open',
+            attribution: 'Search by <a href="http://mapquest.com>"MapQuest</a>.',
+            ease: 1000
+        });
+        
         new MB.layout();
     </script>
 </body>
