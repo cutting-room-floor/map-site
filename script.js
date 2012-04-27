@@ -27,6 +27,10 @@ MB.map = function(el, l) {
             wax.mm.zoomer(MB.maps[el]).appendTo(MB.maps[el].parent);
         }
 
+        if ($.inArray('zoombox',l.features) >= 0) {
+            wax.mm.zoombox(MB.maps[el]);
+        }
+
         if ($.inArray('legend',l.features) >= 0) {
             MB.maps[el].legend = wax.mm.legend(MB.maps[el], t).appendTo(MB.maps[el].parent);
         }
