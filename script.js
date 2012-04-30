@@ -20,8 +20,13 @@ MB.map = function(el, l) {
             new MM.Location(l.center.lat, l.center.lon), 
             l.center.zoom
         );
-        MB.maps[el].setZoomRange(t.minzoom, t.maxzoom);
-
+        
+        if (l.zoomRange) {
+            MB.maps[el].setZoomRange(l.zoomRange[0], l.zoomRange[1]);
+        } else {
+            MB.maps[el].setZoomRange(t.minzoom, t.maxzoom);
+        }
+        
         wax.mm.attribution(MB.maps[el], t).appendTo(MB.maps[el].parent);
                 
         if ($.inArray('zoompan',l.features) >= 0) {
@@ -137,6 +142,7 @@ MB.geocoder = function(el, m, opt) {
                     if ($(this).val() === placeholder) $(this).val('');
                 })
             )
+            .append($('<input type="submit">'))
             .submit(function(e) {
                 e.preventDefault();
                 geocode($('input[type=text]', this).val());
@@ -159,12 +165,30 @@ MB.geocoder = function(el, m, opt) {
                                 new MM.Location(r.boundingbox[1], r.boundingbox[2]),
                                 new MM.Location(r.boundingbox[0], r.boundingbox[3])
                             ]);
+                            if (MB.maps[m].getZoom() === MB.maps[m].coordLimits[1].zoom) {
+                                var point = { 'type': 'FeatureCollection',
+                                    'features': [{ 'type': 'Feature',
+                                    'geometry': { 'type': 'Point','coordinates': [r.lon, r.lat] },
+                                    'properties': {}
+                                }]};
+                                
+                                if (MB.maps[m].geocodeLayer) {
+                                    MB.maps[m].geocodeLayer.geojson(point);
+                                } else {
+                                    MB.maps[m].geocodeLayer = mmg()
+                                        .map(MB.maps[m])
+                                        .geojson(point);
+                                    MB.maps[m].addLayer(MB.maps[m].geocodeLayer);
+                                }
+                            }
                         }
                     }
                 });
             break;
         }
-        $('.wax-attribution').append(' - ' + opt.attribution);
+        if ($('.wax-attribution').html().indexOf(opt.attribution) < 0) {
+            $('.wax-attribution').append(' - ' + opt.attribution);
+        }
     };
 };
 

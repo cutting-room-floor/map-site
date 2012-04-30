@@ -54,7 +54,6 @@ input,
 textarea {
     font: 13px/16px arial,helvetica,clean,sans-serif;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
     }
 
 pre,
@@ -161,6 +160,36 @@ label {
     line-height:30px;
     display:block;
     }
+form.geocode input[type=text] {
+    height: 20px;
+    display: block;
+    border: 1px solid  #ccc;
+    float: left;
+    }
+form.geocode input[type=submit] {
+    background: url(map.png) no-repeat -125px -4px #fff;
+    text-indent: -9999px;
+    width: 20px;
+    height: 20px;
+    display: block;
+    border: 1px solid  #ccc;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
+    -moz-box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
+    -webkit-box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
+    margin: 0 0 0 3px;
+    padding: 11px;
+    float: left;
+    }
+form.geocode input[type=submit]:active {    
+    border-color:#bbb;
+    background-color:#ddd;
+    box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+    -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+    -webkit-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+    }
 
 a.zoomer {
     top: 60px;
@@ -194,7 +223,14 @@ a.zoomer {
     top: 95px;
     z-index: 2;
     }
-
+    
+.mmg-default {
+    width: 20px;
+    height: 40px;
+    background: url(map.png) -120px -30px;
+    left: -10px;
+    top: -30px;
+    }
 
 /* Modes */
 

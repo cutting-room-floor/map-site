@@ -1,4 +1,3 @@
-,
 .ts-error {
   margin:0px;
   padding:0px;
@@ -278,21 +277,6 @@
   }
 
 .attribution .mapbox-watermark { bottom:25px; }
-
-body {
-  margin:0px;
-  padding:0px;
-  }
-
- {
-  width:100%;
-  height:100%;
-  position:absolute;
-  top:0px;
-  left:0px;
-  right:0px;
-  bottom:0px;
-  }
 
 /* Override image location */
  .zoomer,

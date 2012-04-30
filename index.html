@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -21,6 +21,7 @@
         <h2>The full story</h2>
         <p>Or browse the story with inline navigation. <a id="donors" href="#">See the donors</a> in NW DC.</p>
         <p>Then move <a id="recipients" href="#">south east</a> to see where donations flow. Finally, zoom out to <a id="zip" href="#">see the regional impact</a>.</p>
+        <h2>See your neighborhood</h2>
         <div id="search"></div>
     </div></div>
     <div id="map" class="map"></div>
@@ -30,6 +31,7 @@
     <script src="ext/modestmaps.min.js"></script>
     <script src="ext/wax/wax.mm.min.js"></script>
     <script src="ext/easey.js"></script>
+    <script src="ext/mmg.js"></script>
     <script src="script.js"></script>
     
     <!-- Site configuration -->
@@ -43,13 +45,13 @@
                 lon: -77.01439615889109,
                 zoom: 14
             },
+            zoomRange: [0, 15],
             features: [
                 'tooltips',
                 'zoompan',
                 'legend',
                 'bwdetect',
                 'share',
-                'zoomwheel',
                 'zoombox'
             ]
         });
@@ -58,7 +60,7 @@
         new MB.layers('nav', 'map', [
             {
                 name: 'Donors',
-                id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don',
+                id: 'awidercircle.awc-addresses-don',
                 el: 'donors',
                 layer: 1,
                 center: {
@@ -70,7 +72,7 @@
             },
             {
                 name: 'Recipients',
-                id: 'mapbox.mapbox-light,awidercircle.awc-addresses-rec',
+                id: 'awidercircle.awc-addresses-rec',
                 el: 'recipients',
                 layer: 1,
                 center: {
@@ -82,7 +84,7 @@
             },
             {
                 name: 'Both',
-                id: 'mapbox.mapbox-light,awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec',
+                id: 'awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec',
                 layer: 1,
                 center: {
                     lat: 38.90537696659096,
@@ -93,7 +95,7 @@
             },
             {
                 name: 'ZIP codes',
-                id: 'mapbox.mapbox-light,awidercircle.awc_don_rec_zip08',
+                id: 'awidercircle.awc_don_rec_zip08',
                 el: 'zip',
                 layer: 1,
                 center: {
