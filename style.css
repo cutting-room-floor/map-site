@@ -176,10 +176,25 @@ a.zoomer {
     right: 350px;
     width: 290px;
     }
+.wax-share h3 {
+    margin: 0px 0px 10px;
+    font-size: 16px;
+    font-weight: normal;
+    }
+.wax-share strong {
+    font-weight: 700;
+    }
+.wax-share small {
+    font-size: 11px;
+    color: #999;
+    display: block;
+    margin-top: 0.5em;
+    }
 .share {
     top: 95px;
     z-index: 2;
     }
+
 
 /* Modes */
 
