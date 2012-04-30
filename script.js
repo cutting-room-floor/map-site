@@ -20,6 +20,7 @@ MB.map = function(el, l) {
             new MM.Location(l.center.lat, l.center.lon), 
             l.center.zoom
         );
+        MB.maps[el].setZoomRange(t.minzoom, t.maxzoom);
 
         wax.mm.attribution(MB.maps[el], t).appendTo(MB.maps[el].parent);
                 
@@ -141,29 +142,29 @@ MB.geocoder = function(el, m, opt) {
                 geocode($('input[type=text]', this).val());
             })
     );
-    $('wax-attribution').append(opt.attribution);
     var geocode = function(query) {
         query = encodeURIComponent(query);
         switch(opt.service) {
             case 'mapquest open':
-                $.ajax({
+                reqwest({
                     url: 'http://open.mapquestapi.com/nominatim/v1/search?format=json&json_callback=callback&&limit=1&q=' + query,
                     type: 'jsonp',
                     jsonpCallback: 'callback',
-                    success: function (value) {
-                        value = value[0];
-                        if (value === undefined) {
+                    success: function (r) {
+                        r = r[0];
+                        if (r === undefined) {
                             console.log('The search you tried did not return a result.');
                         } else {
                             MB.maps[m].setExtent([
-                                new mm.Location(boundingbox[1], boundingbox[2]),
-                                new mm.Location(boundingbox[0], boundingbox[3])
+                                new MM.Location(r.boundingbox[1], r.boundingbox[2]),
+                                new MM.Location(r.boundingbox[0], r.boundingbox[3])
                             ]);
                         }
                     }
                 });
             break;
         }
+        $('.wax-attribution').append(' - ' + opt.attribution);
     };
 };
 
