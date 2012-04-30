@@ -21,6 +21,7 @@
         <h2>The full story</h2>
         <p>Or browse the story with inline navigation. <a id="donors" href="#">See the donors</a> in NW DC.</p>
         <p>Then move <a id="recipients" href="#">south east</a> to see where donations flow. Finally, zoom out to <a id="zip" href="#">see the regional impact</a>.</p>
+        <div id="search"></div>
     </div></div>
     <div id="map" class="map"></div>
     
@@ -106,8 +107,7 @@
         
         new MB.geocoder('search', 'map', {
             service: 'mapquest open',
-            attribution: 'Search by <a href="http://mapquest.com>"MapQuest</a>.',
-            ease: 1000
+            attribution: 'Search by <a href="http://developer.mapquest.com/web/products/open">MapQuest Open</a>.'
         });
         
         new MB.layout();

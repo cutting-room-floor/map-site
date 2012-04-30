@@ -124,9 +124,47 @@ MB.layers = function(el, m, layers) {
 };
 
 MB.geocoder = function(el, m, opt) {
-    $(el).append(
-        $('<form class="geocode"><input type="text"></form>')
+    var placeholder = 'Search for an address';
+    $('#' + el).append(
+        $('<form class="geocode">')
+            .append($('<input type="text">')
+                .val(placeholder)
+                .blur(function() {
+                    if ($(this).val() === '') $(this).val(placeholder);
+                })
+                .focus(function() {
+                    if ($(this).val() === placeholder) $(this).val('');
+                })
+            )
+            .submit(function(e) {
+                e.preventDefault();
+                geocode($('input[type=text]', this).val());
+            })
     );
+    $('wax-attribution').append(opt.attribution);
+    var geocode = function(query) {
+        query = encodeURIComponent(query);
+        switch(opt.service) {
+            case 'mapquest open':
+                $.ajax({
+                    url: 'http://open.mapquestapi.com/nominatim/v1/search?format=json&json_callback=callback&&limit=1&q=' + query,
+                    type: 'jsonp',
+                    jsonpCallback: 'callback',
+                    success: function (value) {
+                        value = value[0];
+                        if (value === undefined) {
+                            console.log('The search you tried did not return a result.');
+                        } else {
+                            MB.maps[m].setExtent([
+                                new mm.Location(boundingbox[1], boundingbox[2]),
+                                new mm.Location(boundingbox[0], boundingbox[3])
+                            ]);
+                        }
+                    }
+                });
+            break;
+        }
+    };
 };
 
 MB.layout = function() {
