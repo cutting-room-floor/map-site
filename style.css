@@ -167,7 +167,7 @@ form.geocode input[type=text] {
     float: left;
     }
 form.geocode input[type=submit] {
-    background: url(map.png) no-repeat -125px -4px #fff;
+    background: url(img/map.png) no-repeat -125px -4px #fff;
     text-indent: -9999px;
     width: 20px;
     height: 20px;
@@ -190,7 +190,22 @@ form.geocode input[type=submit]:active {
     -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
     -webkit-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
     }
-
+form.geocode.loading input[type=submit] {
+    background: url(img/ajax-loader.gif) no-repeat 50% 50%;
+    border-color:#bbb;
+    background-color:#ddd;
+    box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+    -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+    -webkit-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+    }
+#geocode-error {
+    display: none;
+    position: relative;
+    top: 1em;
+    clear: both;
+    color: red;
+    font-size: 11px;
+    }
 a.zoomer {
     top: 60px;
     }
@@ -227,7 +242,7 @@ a.zoomer {
 .mmg-default {
     width: 20px;
     height: 40px;
-    background: url(map.png) -120px -30px;
+    background: url(img/map.png) -120px -30px;
     left: -10px;
     top: -30px;
     }

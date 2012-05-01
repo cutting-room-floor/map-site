@@ -143,6 +143,7 @@ MB.geocoder = function(el, m, opt) {
                 })
             )
             .append($('<input type="submit">'))
+            .append($('<div id="geocode-error">'))
             .submit(function(e) {
                 e.preventDefault();
                 geocode($('input[type=text]', this).val());
@@ -150,6 +151,7 @@ MB.geocoder = function(el, m, opt) {
     );
     var geocode = function(query) {
         query = encodeURIComponent(query);
+        $('form.geocode').addClass('loading');
         switch(opt.service) {
             case 'mapquest open':
                 reqwest({
@@ -158,9 +160,17 @@ MB.geocoder = function(el, m, opt) {
                     jsonpCallback: 'callback',
                     success: function (r) {
                         r = r[0];
+
+                        if (MB.maps[m].geocodeLayer) {
+                            MB.maps[m].geocodeLayer.removeAllMarkers();
+                        }
+
+                        $('form.geocode').removeClass('loading');
+
                         if (r === undefined) {
-                            console.log('The search you tried did not return a result.');
+                            $('#geocode-error').text('This address cannot be found.').fadeIn('fast');
                         } else {
+                            $('#geocode-error').hide();
                             MB.maps[m].setExtent([
                                 new MM.Location(r.boundingbox[1], r.boundingbox[2]),
                                 new MM.Location(r.boundingbox[0], r.boundingbox[3])
