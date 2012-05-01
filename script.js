@@ -162,7 +162,8 @@ MB.geocoder = function(el, m, opt) {
                         r = r[0];
 
                         if (MB.maps[m].geocodeLayer) {
-                            MB.maps[m].geocodeLayer.removeAllMarkers();
+                            MB.maps[m].geocodeLayer
+                                .removeAllMarkers();
                         }
 
                         $('form.geocode').removeClass('loading');
