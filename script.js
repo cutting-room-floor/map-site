@@ -165,6 +165,7 @@ MB.geocoder = function(el, m, opt) {
                                 new MM.Location(r.boundingbox[1], r.boundingbox[2]),
                                 new MM.Location(r.boundingbox[0], r.boundingbox[3])
                             ]);
+
                             if (MB.maps[m].getZoom() === MB.maps[m].coordLimits[1].zoom) {
                                 var point = { 'type': 'FeatureCollection',
                                     'features': [{ 'type': 'Feature',
@@ -173,13 +174,15 @@ MB.geocoder = function(el, m, opt) {
                                 }]};
                                 
                                 if (MB.maps[m].geocodeLayer) {
+                                    MB.maps[m].geocodeLayer.removeAllMarkers();
                                     MB.maps[m].geocodeLayer.geojson(point);
                                 } else {
                                     MB.maps[m].geocodeLayer = mmg()
-                                        .map(MB.maps[m])
                                         .geojson(point);
                                     MB.maps[m].addLayer(MB.maps[m].geocodeLayer);
                                 }
+                                
+                                MB.maps[m].setCenter(new MM.Location(r.lat, r.lon));
                             }
                         }
                     }
