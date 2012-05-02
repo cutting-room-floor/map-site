@@ -16,9 +16,10 @@ MB.map = function(el, l) {
         if ($.inArray('zoomwheel',l.features) >= 0) h.push(new MM.MouseWheelHandler);
         
         MB.maps[el] = new MM.Map(el, new wax.mm.connector(t), null, h);
-        MB.maps[el].setCenterZoom(
-            new MM.Location(l.center.lat, l.center.lon), 
-            l.center.zoom
+        MB.maps[el].setCenterZoom(new MM.Location(
+                (l.center) ? l.center.lat : t.center[1],
+                (l.center) ? l.center.lon : t.center[0]),
+                (l.center) ? l.center.zoom : t.center[2]
         );
         
         if (l.zoomRange) {
