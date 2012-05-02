@@ -9,27 +9,27 @@ MB.api = function(l) {
 MB.map = function(el, l) {
     wax.tilejson(MB.api(l), function(t) {
         var h = [
-            new MM.DragHandler,
-            new MM.DoubleClickHandler,
-            new MM.TouchHandler
+            new MM.DragHandler(),
+            new MM.DoubleClickHandler(),
+            new MM.TouchHandler()
         ];
-        if ($.inArray('zoomwheel',l.features) >= 0) h.push(new MM.MouseWheelHandler);
-        
+        if ($.inArray('zoomwheel',l.features) >= 0) h.push(new MM.MouseWheelHandler());
+
         MB.maps[el] = new MM.Map(el, new wax.mm.connector(t), null, h);
         MB.maps[el].setCenterZoom(new MM.Location(
                 (l.center) ? l.center.lat : t.center[1],
                 (l.center) ? l.center.lon : t.center[0]),
                 (l.center) ? l.center.zoom : t.center[2]
         );
-        
+
         if (l.zoomRange) {
             MB.maps[el].setZoomRange(l.zoomRange[0], l.zoomRange[1]);
         } else {
             MB.maps[el].setZoomRange(t.minzoom, t.maxzoom);
         }
-        
+
         wax.mm.attribution(MB.maps[el], t).appendTo(MB.maps[el].parent);
-                
+
         if ($.inArray('zoompan',l.features) >= 0) {
             wax.mm.zoomer(MB.maps[el]).appendTo(MB.maps[el].parent);
         }
@@ -45,7 +45,7 @@ MB.map = function(el, l) {
         if ($.inArray('bwdetect',l.features) >= 0) {
             wax.mm.bwdetect(MB.maps[el]);
         }
-        
+
         if ($.inArray('tooltips',l.features) >= 0) {
             MB.maps[el].interaction = wax.mm.interaction()
                 .map(MB.maps[el])
@@ -92,11 +92,11 @@ MB.refresh = function(m, l) {
         var lat = l.center.lat || MB.maps[m].getCenter().lat,
             lon = l.center.lon || MB.maps[m].getCenter().lon,
             zoom = l.center.zoom || MB.maps[m].getZoom();
-                
+
         if (l.center.ease > 0) {
             MB.maps[m].easey = easey().map(MB.maps[m])
                 .to(MB.maps[m].locationCoordinate({ lat: lat, lon: lon })
-                .zoomTo(zoom)).run(l.center.ease);            
+                .zoomTo(zoom)).run(l.center.ease);
         } else {
             MB.maps[m].setCenterZoom(new MM.Location(lat, lon), zoom);
         }
@@ -114,7 +114,7 @@ MB.layers = function(el, m, layers) {
                     MB.refresh(m, l);
                 });
         }
-        
+
         if (el) {
             $('#' + el).append($('<a href="#">' + l.name + '</a>')
                 .attr('id', 'layer-' + i)
@@ -153,7 +153,7 @@ MB.geocoder = function(el, m, opt) {
     var geocode = function(query) {
         query = encodeURIComponent(query);
         $('form.geocode').addClass('loading');
-        switch(opt.service) {
+        switch (opt.service) {
             case 'mapquest open':
                 reqwest({
                     url: 'http://open.mapquestapi.com/nominatim/v1/search?format=json&json_callback=callback&&limit=1&q=' + query,
@@ -184,7 +184,7 @@ MB.geocoder = function(el, m, opt) {
                                     'geometry': { 'type': 'Point','coordinates': [r.lon, r.lat] },
                                     'properties': {}
                                 }]};
-                                
+
                                 if (MB.maps[m].geocodeLayer) {
                                     MB.maps[m].geocodeLayer.removeAllMarkers();
                                     MB.maps[m].geocodeLayer.geojson(point);
@@ -193,7 +193,7 @@ MB.geocoder = function(el, m, opt) {
                                         .geojson(point);
                                     MB.maps[m].addLayer(MB.maps[m].geocodeLayer);
                                 }
-                                
+
                                 MB.maps[m].setCenter(new MM.Location(r.lat, r.lon));
                             }
                         }
@@ -209,7 +209,7 @@ MB.geocoder = function(el, m, opt) {
 
 MB.layout = function() {
     if (location.hash === '#embed') $('body').removeClass().addClass('embed');
-    
+
     $('body').append('<div id="layout"><a href="#" id="right">right</a><a href="#" id="left">left</a><a href="#" id="hero">hero</a></div>');
     $('#layout a').click(function(e) {
         e.preventDefault();

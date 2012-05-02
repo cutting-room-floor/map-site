@@ -25,7 +25,7 @@
         <div id="search"></div>
     </div></div>
     <div id="map" class="map"></div>
-    
+
     <!-- External libraries and site script -->
     <script src="ext/jquery.min.js"></script>
     <script src="ext/modestmaps.min.js"></script>
@@ -33,10 +33,10 @@
     <script src="ext/easey.js"></script>
     <script src="ext/mmg.js"></script>
     <script src="script.js"></script>
-    
+
     <!-- Site configuration -->
     <script type="text/javascript">
-    
+
         // Make a new map in #map
         new MB.map('map', {
             id: 'mapbox.mapbox-light',
@@ -55,7 +55,7 @@
                 'share'
             ]
         });
-        
+
         // Make a new layer switch in #nav for `map`
         new MB.layers('nav', 'map', [
             {
@@ -106,12 +106,12 @@
                 }
             }
         ]);
-        
+
         new MB.geocoder('search', 'map', {
             service: 'mapquest open',
             attribution: 'Search by <a href="http://developer.mapquest.com/web/products/open">MapQuest Open</a>'
         });
-        
+
         new MB.layout();
     </script>
 </body>
