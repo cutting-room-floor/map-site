@@ -12,7 +12,7 @@ Adjust the design by editing the `style.css` file and adding any additional supp
 
 Set the map features by writing a configuration script at the bottom of `index.html`. 
 
-## HTML template
+## HTML layout
 
 The html markup for the template is in `index.html`. It's a simple HTML5 page layout. Generally, there are three things to change in this document:
 
@@ -32,7 +32,7 @@ Most of the hard work on a microsite build is template design implemented throug
 
 CSS styles are in two files:
 
-- `style.css` contains all the layout and typographic styles as well as some overridden styles for map controls, as well as a reset stylesheet from [Eric Meyer](http://meyerweb.com/eric/tools/css/reset/). Implement your design by editing this file.
+- `style.css` contains all the layout and typographic styles as well as some overridden styles for map controls, as well as a [reset stylesheet](http://meyerweb.com/eric/tools/css/reset/). Implement your design by editing this file.
 - `map.css` holds the default map styles from tiles.mapbox.com embeds.
 
 ## Site configuration
@@ -60,7 +60,7 @@ And you can add as many of these things as needed. So you can build a page with 
 Start witha `<div>` container with `id="map"`. Styles to lay out the map container come from `class="map"`.
 
 ```html
-<div id="map" class"map"></div>
+<div id="map" class="map"></div>
 ```
 
 Insert a map into the container. The `id` of the container is the first argument (`'map'`), and an object of options is the second argument. The simplest, only required option is `id`, and it should contain the Map ID from MapBox. MapBox maps each have a unique id in the formate of `user`.`map` where `user` is the MapBox account name and `map` is the url hash for the map.
@@ -116,7 +116,7 @@ A layer switcher is a simple interface for changing the content of the map. It i
 Start with a container `<div>` to hold the layer switcher, just like we did with the map's container. Give it an id and a `class="layers"` for styles.
 
 ```html
-<div id="nav" class"layers"></div>
+<div id="nav" class="layers"></div>
 ```
 
 Just like the map, we start by defining the container element's `id` in the first argument: here it's `'nav'`. The second argument is the map to which the layer switcher should be applied, identified by the `id` of its container: here it's `'map'`. Finally we pass an array of map objects, which make up the different layers in the layer switcher. For the simplest example, we'll just have two layers. Each layer object needs at least a `name` to label it. Since we want this layer switcher to change the map's content, we also set the `id` for each layer, which is just like the `id` for the map: it's the Map ID from MapBox.
@@ -134,7 +134,7 @@ new MB.layers('nav', 'map', [
 ]);
 ```
 
-If instead we want the layer switcher to move the map but not change its content, we can pass it a `center` object instead. The `center` object also works similarly to its use in the map, with a `lat`, `lon`, and optional `zoom` property (if `zoom` is ommitted, the map will recenter, but keep its current zoom level). There's also a new property called `ease`, which is the time in milliseconds to animate moving the map to this new location. It's optional too. Ommitting it will just snap the map to its new location.
+If instead we want the layer switcher to move the map but not change its content, we can pass it a `center` object instead. The `center` object also works similarly to its use in the map, with a `lat`, `lon`, and optional `zoom` property (if `zoom` is omitted, the map will recenter, but keep its current zoom level). There's also a new property called `ease`, which is the time in milliseconds to animate moving the map to this new location. It's optional too. Omitting it will just snap the map to its new location.
 
 ```js
 new MB.layers('nav', 'map', [
@@ -216,7 +216,8 @@ But the layers in a layer switcher can also be attached to links that are inline
 To connect a layer with an inline link, first make sure the link has a unique `id`:
 
 ```html
-<a id="donors" href="#">See the donors</a> in NW DC. Then move <a id="recipients" href="#">south east</a> to see where donations flow.
+<a id="donors" href="#">See the donors</a> in NW DC. 
+Then move <a id="recipients" href="#">south east</a> to see where donations flow.
 ```
 
 Then add a `el` property to the cooresponding layer with the name of the link's `id`:
@@ -263,10 +264,12 @@ This final feature supported in this template is a geocode search. This adds a f
 
 And to add a geocoder to your page, first specify the container's `id`, `'search'`, the map's container `id`, `'map'`, and an options object.
 
+```js
 new MB.geocoder('search', 'map', {
     service: 'mapquest open',
     attribution: 'Search by <a href="http://developer.mapquest.com/web/products/open">MapQuest Open</a>'
 });
+```
 
 Right now the only supported geocoding service is [MapQuest Open](http://developer.mapquest.com/web/products/open), but you can add your own. Geocoders also usually require you to add attribution to your map citing them as the owner of the resulting data, so you can define a `attribution` property for your geocoder that will add html to your map's attribution when a geocoder search is submitted.
 
