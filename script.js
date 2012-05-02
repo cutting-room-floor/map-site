@@ -134,15 +134,7 @@ MB.geocoder = function(el, m, opt) {
     var placeholder = 'Search for an address';
     $('#' + el).append(
         $('<form class="geocode">')
-            .append($('<input type="text">')
-                .val(placeholder)
-                .blur(function() {
-                    if ($(this).val() === '') $(this).val(placeholder);
-                })
-                .focus(function() {
-                    if ($(this).val() === placeholder) $(this).val('');
-                })
-            )
+            .append($('<input type="text">').attr('placeholder', placeholder))
             .append($('<input type="submit">'))
             .append($('<div id="geocode-error">'))
             .submit(function(e) {
