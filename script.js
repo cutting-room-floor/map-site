@@ -16,10 +16,10 @@ MB.map = function(el, l) {
         if ($.inArray('zoomwheel',l.features) >= 0) h.push(new MM.MouseWheelHandler());
 
         MB.maps[el] = new MM.Map(el, new wax.mm.connector(t), null, h);
-        MB.maps[el].setCenterZoom(new MM.Location(
-                (l.center) ? l.center.lat : t.center[1],
-                (l.center) ? l.center.lon : t.center[0]),
-                (l.center) ? l.center.zoom : t.center[2]
+        MB.maps[el].setCenterZoom({
+            lat: (l.center) ? l.center.lat : t.center[1],
+            lon: (l.center) ? l.center.lon : t.center[0]
+        }, (l.center) ? l.center.zoom : t.center[2]
         );
 
         if (l.zoomRange) {
@@ -98,30 +98,30 @@ MB.refresh = function(m, l) {
                 .to(MB.maps[m].locationCoordinate({ lat: lat, lon: lon })
                 .zoomTo(zoom)).run(l.center.ease);
         } else {
-            MB.maps[m].setCenterZoom(new MM.Location(lat, lon), zoom);
+            MB.maps[m].setCenterZoom({ lat: lat, lon: lon }, zoom);
         }
     }
 };
 
-MB.layers = function(el, m, layers) {
+MB.layers = function(switcher, m, layers) {
     $.each(layers, function(i, l) {
         if (l.el) {
             $('#' + l.el)
                 .click(function(e) {
                     e.preventDefault();
-                    $('#' + el + ' .layer').removeClass('active');
+                    $('#' + switcher + ' .layer').removeClass('active');
                     $(this).addClass('active');
                     MB.refresh(m, l);
                 });
         }
 
-        if (el) {
-            $('#' + el).append($('<a href="#">' + l.name + '</a>')
+        if (switcher) {
+            $('#' + switcher).append($('<a href="#">' + l.name + '</a>')
                 .attr('id', 'layer-' + i)
                 .addClass('layer')
                 .click(function(e) {
                     e.preventDefault();
-                    $('#' + el + ' .layer').removeClass('active');
+                    $('#' + switcher + ' .layer').removeClass('active');
                     $(this).addClass('active');
                     MB.refresh(m, l);
                 })
@@ -166,8 +166,8 @@ MB.geocoder = function(el, m, opt) {
                         } else {
                             $('#geocode-error').hide();
                             MB.maps[m].setExtent([
-                                new MM.Location(r.boundingbox[1], r.boundingbox[2]),
-                                new MM.Location(r.boundingbox[0], r.boundingbox[3])
+                                { lat: r.boundingbox[1], lon: r.boundingbox[2] },
+                                { lat: r.boundingbox[0], lon: r.boundingbox[3] }
                             ]);
 
                             if (MB.maps[m].getZoom() === MB.maps[m].coordLimits[1].zoom) {
@@ -186,7 +186,7 @@ MB.geocoder = function(el, m, opt) {
                                     MB.maps[m].addLayer(MB.maps[m].geocodeLayer);
                                 }
 
-                                MB.maps[m].setCenter(new MM.Location(r.lat, r.lon));
+                                MB.maps[m].setCenter({ lat: r.lat, lon: r.lon });
                             }
                         }
                     }
