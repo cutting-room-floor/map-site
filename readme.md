@@ -276,3 +276,11 @@ Right now the only supported geocoding service is [MapQuest Open](http://develop
 If the geocoder has a successful response to a search, it will center the map and zoom it to show the bounding box extent of that response. If the bounding box is small enough to zoom the map to its maximum zoom, the geocoder will also place a pin with a star over the response's exact location. You can adjust this marker or hide is by editing the `mmg-default` styles in `style.css`.
 
 ![](https://img.skitch.com/20120502-cxftsce4ejckxxjwjs6h2jp95s.jpg)
+
+### Further Reading
+
+* [MapBox Hosting API](http://mapbox.com/hosting/api/)
+* [MapBox Wax](http://mapbox.com/wax/)
+* [MapBox Easey](http://mapbox.com/easey/)
+* [Modest Maps](http://modestmaps.com/)
+* [jQuery](http://jquery.com/)
