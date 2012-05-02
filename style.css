@@ -1,7 +1,7 @@
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
-   License: none (public domain)
-*/
+   License:none (public domain)
+ */
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -16,389 +16,389 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-    }
+  margin:0;
+  padding:0;
+  border:0;
+  font-size:100%;
+  font:inherit;
+  vertical-align:baseline;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
-	display: block;
-    }
+  display:block;
+}
 body {
-	line-height: 1;
-    }
+  line-height:1;
+}
 ol, ul {
-	list-style: none;
-    }
+  list-style:none;
+}
 blockquote, q {
-	quotes: none;
-    }
+  quotes:none;
+}
 blockquote:before, blockquote:after,
 q:before, q:after {
-	content: '';
-	content: none;
-    }
+  content:'';
+  content:none;
+}
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
-    }
+  border-collapse:collapse;
+  border-spacing:0;
+}
 
 /* Typography */
 
 body,
 input,
 textarea {
-    font: 13px/16px arial,helvetica,clean,sans-serif;
-    -webkit-font-smoothing: antialiased;
-    }
+  font:13px/16px arial,helvetica,clean,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
 
 pre,
 code { font:normal 12px/20px monospace; }
 
-h1, h2, h3, h4, h5, h6 { 
-    font-weight:700;
-    margin: 1em 0;
-    }
-    
+h1, h2, h3, h4, h5, h6 {
+  font-weight:700;
+  margin:1em 0;
+}
+
 h1 {
-    line-height: 1.75em;
-    font-size: 1.5em;
-    }
+  line-height:1.75em;
+  font-size:1.5em;
+}
 h2 {
-    line-height: 1.5em;
-    font-size: 1.25em;
-    }
+  line-height:1.5em;
+  font-size:1.25em;
+}
 
 a {
-    color:#369;
-    text-decoration:none;
-    }
+  color:#369;
+  text-decoration:none;
+}
 
 /* Layout */
 
 body > div {
-    position: relative;
-    z-index: 1;
-    }
+  position:relative;
+  z-index:1;
+}
 .map {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-    }
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  z-index:0;
+}
 #header {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 30px;
-    background: rgb(255,255,255);
-    background: rgba(255,255,255, 0.9);
-    border-bottom: 1px solid #ccc;
-    overflow: hidden;
-    padding: 10px 0;
-    z-index: 2;
-    }
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  height:30px;
+  background:rgb(255,255,255);
+  background:rgba(255,255,255, 0.9);
+  border-bottom:1px solid #ccc;
+  overflow:hidden;
+  padding:10px 0;
+  z-index:2;
+}
 #header img {
-    display: block;
-    float: left;
-    margin: -13px 20px 0 0;
-    top: 50%;
-    position: relative;
-    }
+  display:block;
+  float:left;
+  margin:-13px 20px 0 0;
+  top:50%;
+  position:relative;
+}
 #header h1 {
-    display: block;
-    float: left;
-    line-height: 30px;
-    margin: 0;
-    }
+  display:block;
+  float:left;
+  line-height:30px;
+  margin:0;
+}
 #header .limiter {
-    width: 920px;
-    margin: 0px auto;
-    position: relative;
-    height: 100%;
-    }
+  width:920px;
+  margin:0px auto;
+  position:relative;
+  height:100%;
+}
 #content {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    bottom: 0;
-    width: 280px;
-    background: rgb(255,255,255);
-    background: rgba(255,255,255, 0.9);
-    border-left: 1px solid #ccc;
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding: 20px;
-    }
+  position:absolute;
+  top:50px;
+  right:0;
+  bottom:0;
+  width:280px;
+  background:rgb(255,255,255);
+  background:rgba(255,255,255, 0.9);
+  border-left:1px solid #ccc;
+  overflow-x:hidden;
+  overflow-y:auto;
+  padding:20px;
+}
 .layers a {
-    display: block;
-    padding: 5px;
-    margin: 5px 0;
-    background: #eee;
-    max-width: 300px;
-    }
+  display:block;
+  padding:5px;
+  margin:5px 0;
+  background:#eee;
+  max-width:300px;
+}
 .layers a:hover, .layers a:focus, .layers a.active {
-    background: #369;
-    color: white;
-    }
+  background:#369;
+  color:white;
+}
 p {
-    margin-bottom: 1em;
-    }
+  margin-bottom:1em;
+}
 
 label {
-    font-weight: 700;
-    }
+  font-weight:700;
+}
 #about p {
-    font-size:20px;
-    line-height:30px;
-    display:block;
-    }
+  font-size:20px;
+  line-height:30px;
+  display:block;
+}
 form.geocode input[type=text] {
-    height: 20px;
-    display: block;
-    border: 1px solid  #ccc;
-    float: left;
-    }
+  height:20px;
+  display:block;
+  border:1px solid  #ccc;
+  float:left;
+}
 form.geocode input[type=submit] {
-    background: url(img/map.png) no-repeat -125px -4px #fff;
-    text-indent: -9999px;
-    width: 20px;
-    height: 20px;
-    display: block;
-    border: 1px solid  #ccc;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
-    -moz-box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
-    -webkit-box-shadow: rgba(0,0,0,0.1) 0px 1px 3px;
-    margin: 0 0 0 3px;
-    padding: 11px;
-    float: left;
-    }
-form.geocode input[type=submit]:active {    
-    border-color:#bbb;
-    background-color:#ddd;
-    box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-    -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-    -webkit-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-    }
+  background:url(img/map.png) no-repeat -125px -4px #fff;
+  text-indent:-9999px;
+  width:20px;
+  height:20px;
+  display:block;
+  border:1px solid  #ccc;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+  box-shadow:rgba(0,0,0,0.1) 0px 1px 3px;
+  -moz-box-shadow:rgba(0,0,0,0.1) 0px 1px 3px;
+  -webkit-box-shadow:rgba(0,0,0,0.1) 0px 1px 3px;
+  margin:0 0 0 3px;
+  padding:11px;
+  float:left;
+}
+form.geocode input[type=submit]:active {
+  border-color:#bbb;
+  background-color:#ddd;
+  box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+  -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+  -webkit-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+}
 form.geocode.loading input[type=submit] {
-    background: url(img/ajax-loader.gif) no-repeat 50% 50%;
-    border-color:#bbb;
-    background-color:#ddd;
-    box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-    -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-    -webkit-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-    }
+  background:url(img/ajax-loader.gif) no-repeat 50% 50%;
+  border-color:#bbb;
+  background-color:#ddd;
+  box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+  -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+  -webkit-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
+}
 #geocode-error {
-    display: none;
-    position: relative;
-    top: 1em;
-    clear: both;
-    color: red;
-    font-size: 11px;
-    }
+  display:none;
+  position:relative;
+  top:1em;
+  clear:both;
+  color:red;
+  font-size:11px;
+}
 a.zoomer {
-    top: 60px;
-    }
-    
+  top:60px;
+}
+
 .wax-tooltip {
-    left: auto;
-    right: 350px;
-    top: 60px;
-    }
+  left:auto;
+  right:350px;
+  top:60px;
+}
 .wax-legends {
-    left: auto;
-    right: 350px;
-    width: 290px;
-    }
+  left:auto;
+  right:350px;
+  width:290px;
+}
 .wax-share h3 {
-    margin: 0px 0px 10px;
-    font-size: 16px;
-    font-weight: normal;
-    }
+  margin:0px 0px 10px;
+  font-size:16px;
+  font-weight:normal;
+}
 .wax-share strong {
-    font-weight: 700;
-    }
+  font-weight:700;
+}
 .wax-share small {
-    font-size: 11px;
-    color: #999;
-    display: block;
-    margin-top: 0.5em;
-    }
+  font-size:11px;
+  color:#999;
+  display:block;
+  margin-top:0.5em;
+}
 .share {
-    top: 95px;
-    z-index: 2;
-    }
-    
+  top:95px;
+  z-index:2;
+}
+
 .mmg-default {
-    width: 20px;
-    height: 40px;
-    background: url(img/map.png) -120px -30px;
-    left: -10px;
-    top: -30px;
-    }
+  width:20px;
+  height:40px;
+  background:url(img/map.png) -120px -30px;
+  left:-10px;
+  top:-30px;
+}
 
 /* Modes */
 
 /* Left */
 .left #header .limiter {
-    width: 480px;
-    }
-.left #content { 
-    left: 0;
-    right: auto;
-    border-left: none;
-    border-right: 1px solid #ccc;
-    }
-.left .wax-attribution { 
-    left: 320px;
-    }
+  width:480px;
+}
+.left #content {
+  left:0;
+  right:auto;
+  border-left:none;
+  border-right:1px solid #ccc;
+}
+.left .wax-attribution {
+  left:320px;
+}
 .left a.zoomin {
-    left: 359px;
-    }
+  left:359px;
+}
 .left a.zoomout {
-    left: 330px;
-    }
+  left:330px;
+}
 .left .share {
-    left: 330px;
-    z-index: 2;
-    }
+  left:330px;
+  z-index:2;
+}
 .left .wax-tooltip {
-    right: 10px;
-    }
+  right:10px;
+}
 .left .wax-legends {
-    right: 10px;
-    }
+  right:10px;
+}
 
 /* Hero */
 
 .hero .map {
-    top: 50px;
-    bottom: auto;
-    height: 400px;
-    }
-.hero #content { 
-    top: 450px;
-    left: 0;
-    right: 0;
-    bottom: auto;
-    border-left: none;
-    border-right: none;
-    border-top: 1px solid #ccc;
-    width: auto;
-    }
+  top:50px;
+  bottom:auto;
+  height:400px;
+}
+.hero #content {
+  top:450px;
+  left:0;
+  right:0;
+  bottom:auto;
+  border-left:none;
+  border-right:none;
+  border-top:1px solid #ccc;
+  width:auto;
+}
 .hero #content .limiter {
-    width: 920px;
-    margin: 0px auto;
-    position: relative;
-    }
+  width:920px;
+  margin:0px auto;
+  position:relative;
+}
 .hero a.zoomer {
-    top: 10px;
-    }
+  top:10px;
+}
 .hero .wax-tooltip {
-    top: 10px;
-    right: 10px;
-    }
+  top:10px;
+  right:10px;
+}
 .hero .wax-legends {
-    right: 10px;
-    }
+  right:10px;
+}
 .hero .share {
-    top: 45px;
-    }
+  top:45px;
+}
 
 .hero .layers {
-    height: 36px;
-    }
+  height:36px;
+}
 .hero .layer {
-    width: 200px;
-    float: left;
-    margin-right: 20px;
-    text-align: center;
-    }
-    
+  width:200px;
+  float:left;
+  margin-right:20px;
+  text-align:center;
+}
+
 /* embed */
 
 .embed .map {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: white;
-    z-index: 1000;
-    }
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  background:white;
+  z-index:1000;
+}
 .embed #header, .embed #content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10001;
-    visibility: hidden;
-    overflow: hidden;
-    }
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:10001;
+  visibility:hidden;
+  overflow:hidden;
+}
 .embed a.zoomer {
-    top: 10px;
-    }
+  top:10px;
+}
 .embed .wax-tooltip {
-    top: 10px;
-    right: 10px;
-    }
+  top:10px;
+  right:10px;
+}
 .embed .wax-legends {
-    right: 10px;
-    }
+  right:10px;
+}
 .embed .share {
-    top: 45px;
-    }
+  top:45px;
+}
 .embed .layers {
-    position: absolute;
-    top: 90px;
-    left: 0;
-    z-index: 1001;
-    visibility: visible;
-    }
+  position:absolute;
+  top:90px;
+  left:0;
+  z-index:1001;
+  visibility:visible;
+}
 .embed .layer {
-    width: 100px;
-    text-align: center;
-    border: 1px solid #ccc;
-    }
+  width:100px;
+  text-align:center;
+  border:1px solid #ccc;
+}
 .embed.sharing .layers {
-    visibility: hidden;
-    }
+  visibility:hidden;
+}
 
 #layout {
-    z-index: 10;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    }
-#layout a { margin-left: 10px; }
+  z-index:10;
+  position:absolute;
+  top:10px;
+  right:10px;
+}
+#layout a { margin-left:10px; }
 
 /* Animation */
 
 .map-tile-loaded {
-    -webkit-animation-name:               fade-in;
-    -moz-animation-name:                  fade-in;
-    -ms-animation-name:                   fade-in;
-    -o-animation-name:                    fade-in;
-    -webkit-animation-timing-function:    linear;
-    -moz-animation-timing-function:       linear;
-    -ms-animation-timing-function:        linear;
-    -o-animation-timing-function:         linear;
-    -webkit-animation-duration:           .2s;
-    -moz-animation-duration:              .2s;
-    -ms-animation-duration:               .2s;
-    -o-animation-duration:                .2s;
+  -webkit-animation-name:fade-in;
+  -moz-animation-name:fade-in;
+  -ms-animation-name:fade-in;
+  -o-animation-name:fade-in;
+  -webkit-animation-timing-function:linear;
+  -moz-animation-timing-function:linear;
+  -ms-animation-timing-function:linear;
+  -o-animation-timing-function:linear;
+  -webkit-animation-duration:0.2s;
+  -moz-animation-duration:0.2s;
+  -ms-animation-duration:0.2s;
+  -o-animation-duration:0.2s;
 }
 
-@-webkit-keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-@-moz-keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-@-ms-keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-@-o-keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@-webkit-keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+@-ms-keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+@-o-keyframes fade-in { from { opacity:0; } to { opacity:1; } }
