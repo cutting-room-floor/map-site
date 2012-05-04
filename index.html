@@ -50,7 +50,7 @@
     <script type="text/javascript">
 
         // Make a new map in #map
-        MB.map('map', {
+        var main = Map('map', {
             id: 'mapbox.mapbox-light',
             center: {
                 lat: 38.8850033656251,
@@ -68,7 +68,7 @@
             ]
         });
 
-        MB.layers({
+        main.layers({
             donors: {
                 name: 'Donors',
                 id: 'awidercircle.awc-addresses-don',
@@ -113,8 +113,6 @@
                 }
             }
         });
-
-        MB.layout();
     </script>
 </body>
 </html>
