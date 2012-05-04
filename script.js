@@ -8,14 +8,16 @@ MB.api = function(l) {
 
 MB.map = function(el, l) {
     wax.tilejson(MB.api(l), function(t) {
-        var h = [
+        var handlers = [
             new MM.DragHandler(),
             new MM.DoubleClickHandler(),
             new MM.TouchHandler()
         ];
-        if ($.inArray('zoomwheel',l.features) >= 0) h.push(new MM.MouseWheelHandler());
+        if ($.inArray('zoomwheel',l.features) >= 0) {
+            handlers.push(new MM.MouseWheelHandler());
+        }
 
-        MB.maps[el] = new MM.Map(el, new wax.mm.connector(t), null, h);
+        MB.maps[el] = new MM.Map(el, new wax.mm.connector(t), null, handlers);
         MB.maps[el].setCenterZoom({
             lat: (l.center) ? l.center.lat : t.center[1],
             lon: (l.center) ? l.center.lon : t.center[0]
@@ -30,44 +32,43 @@ MB.map = function(el, l) {
 
         wax.mm.attribution(MB.maps[el], t).appendTo(MB.maps[el].parent);
 
-        if ($.inArray('zoompan',l.features) >= 0) {
-            wax.mm.zoomer(MB.maps[el]).appendTo(MB.maps[el].parent);
+        for (var i = 0; i < l.features.length; i++) {
+            switch(l.features[i]) {
+                case 'zoompan':
+                    wax.mm.zoomer(MB.maps[el]).appendTo(MB.maps[el].parent);
+                    break;
+                case 'zoombox':
+                    wax.mm.zoombox(MB.maps[el]);
+                    break;
+                case 'legend':
+                    MB.maps[el].legend = wax.mm.legend(MB.maps[el], t).appendTo(MB.maps[el].parent);
+                    break;
+                case 'bwdetect':
+                    wax.mm.bwdetect(MB.maps[el]);
+                    break;
+                case 'share':
+                    wax.mm.share(MB.maps[el], t).appendTo(MB.maps[el].parent);
+                    break;
+                case 'tooltips':
+                    MB.maps[el].interaction = wax.mm.interaction()
+                        .map(MB.maps[el])
+                        .tilejson(t)
+                        .on(wax.tooltip()
+                            .parent(MB.maps[el].parent)
+                            .events()
+                        );
+                    break;
+                case 'movetips':
+                    MB.maps[el].interaction = wax.mm.interaction()
+                        .map(MB.maps[el])
+                        .tilejson(t)
+                        .on(wax.movetip()
+                            .parent(MB.maps[el].parent)
+                            .events()
+                        );
+                    break;
+            }
         }
-
-        if ($.inArray('zoombox',l.features) >= 0) {
-            wax.mm.zoombox(MB.maps[el]);
-        }
-
-        if ($.inArray('legend',l.features) >= 0) {
-            MB.maps[el].legend = wax.mm.legend(MB.maps[el], t).appendTo(MB.maps[el].parent);
-        }
-
-        if ($.inArray('bwdetect',l.features) >= 0) {
-            wax.mm.bwdetect(MB.maps[el]);
-        }
-
-        if ($.inArray('tooltips',l.features) >= 0) {
-            MB.maps[el].interaction = wax.mm.interaction()
-                .map(MB.maps[el])
-                .tilejson(t)
-                .on(wax.tooltip()
-                    .parent(MB.maps[el].parent)
-                    .events()
-                );
-        } else if ($.inArray('movetips',l.features) >= 0) {
-            MB.maps[el].interaction = wax.mm.interaction()
-                .map(MB.maps[el])
-                .tilejson(t)
-                .on(wax.movetip()
-                    .parent(MB.maps[el].parent)
-                    .events()
-                );
-        }
-
-        if ($.inArray('share',l.features) >= 0) {
-            wax.mm.share(MB.maps[el], t).appendTo(MB.maps[el].parent);
-        }
-
     });
 };
 
@@ -103,101 +104,79 @@ MB.refresh = function(m, l) {
     }
 };
 
-MB.layers = function(switcher, m, layers) {
-    $.each(layers, function(i, l) {
-        if (l.el) {
-            $('#' + l.el)
-                .click(function(e) {
-                    e.preventDefault();
-                    $('#' + switcher + ' .layer').removeClass('active');
-                    $(this).addClass('active');
-                    MB.refresh(m, l);
-                });
+// Bind the geocoder functionality to any div with the format
+//
+//     <div data-control='geocode' id="search">
+//        <form class="geocode">
+//          <input placeholder='Search for an address' type="text">
+//          <input type='submit' />
+//          <div id='geocode-error'></div>
+//        </form>
+//      </div>
+//
+function bindGeocoder() {
+    $('[data-control="geocode"] form').submit(function(e) {
+        var m = $('[data-control="geocode"]').attr('data-map');
+        // If this doesn't explicitly name the layer it should affect,
+        // use the first layer in MB.maps
+        if (!m) {
+            for (var k in MB.maps) { m = k; break; }
         }
-
-        if (switcher) {
-            $('#' + switcher).append($('<a href="#">' + l.name + '</a>')
-                .attr('id', 'layer-' + i)
-                .addClass('layer')
-                .click(function(e) {
-                    e.preventDefault();
-                    $('#' + switcher + ' .layer').removeClass('active');
-                    $(this).addClass('active');
-                    MB.refresh(m, l);
-                })
-            );
-        }
+        e.preventDefault();
+        geocode($('input[type=text]', this).val(), m);
     });
-};
-
-MB.geocoder = function(el, m, opt) {
-    var placeholder = 'Search for an address';
-    $('#' + el).append(
-        $('<form class="geocode">')
-            .append($('<input type="text">').attr('placeholder', placeholder))
-            .append($('<input type="submit">'))
-            .append($('<div id="geocode-error">'))
-            .submit(function(e) {
-                e.preventDefault();
-                geocode($('input[type=text]', this).val());
-            })
-    );
-    var geocode = function(query) {
+    var geocode = function(query, m) {
         query = encodeURIComponent(query);
         $('form.geocode').addClass('loading');
-        switch (opt.service) {
-            case 'mapquest open':
-                reqwest({
-                    url: 'http://open.mapquestapi.com/nominatim/v1/search?format=json&json_callback=callback&&limit=1&q=' + query,
-                    type: 'jsonp',
-                    jsonpCallback: 'callback',
-                    success: function (r) {
-                        r = r[0];
+        reqwest({
+            url: 'http://open.mapquestapi.com/nominatim/v1/search?format=json&json_callback=callback&&limit=1&q=' + query,
+            type: 'jsonp',
+            jsonpCallback: 'callback',
+            success: function (r) {
+                r = r[0];
+
+                if (MB.maps[m].geocodeLayer) {
+                    MB.maps[m].geocodeLayer.removeAllMarkers();
+                }
+
+                $('form.geocode').removeClass('loading');
+
+                if (r === undefined) {
+                    $('#geocode-error').text('This address cannot be found.').fadeIn('fast');
+                } else {
+                    $('#geocode-error').hide();
+                    MB.maps[m].setExtent([
+                        { lat: r.boundingbox[1], lon: r.boundingbox[2] },
+                        { lat: r.boundingbox[0], lon: r.boundingbox[3] }
+                    ]);
+
+                    if (MB.maps[m].getZoom() === MB.maps[m].coordLimits[1].zoom) {
+                        var point = { 'type': 'FeatureCollection',
+                            'features': [{ 'type': 'Feature',
+                            'geometry': { 'type': 'Point','coordinates': [r.lon, r.lat] },
+                            'properties': {}
+                        }]};
 
                         if (MB.maps[m].geocodeLayer) {
-                            MB.maps[m].geocodeLayer
-                                .removeAllMarkers();
-                        }
-
-                        $('form.geocode').removeClass('loading');
-
-                        if (r === undefined) {
-                            $('#geocode-error').text('This address cannot be found.').fadeIn('fast');
+                            MB.maps[m].geocodeLayer.removeAllMarkers();
+                            MB.maps[m].geocodeLayer.geojson(point);
                         } else {
-                            $('#geocode-error').hide();
-                            MB.maps[m].setExtent([
-                                { lat: r.boundingbox[1], lon: r.boundingbox[2] },
-                                { lat: r.boundingbox[0], lon: r.boundingbox[3] }
-                            ]);
-
-                            if (MB.maps[m].getZoom() === MB.maps[m].coordLimits[1].zoom) {
-                                var point = { 'type': 'FeatureCollection',
-                                    'features': [{ 'type': 'Feature',
-                                    'geometry': { 'type': 'Point','coordinates': [r.lon, r.lat] },
-                                    'properties': {}
-                                }]};
-
-                                if (MB.maps[m].geocodeLayer) {
-                                    MB.maps[m].geocodeLayer.removeAllMarkers();
-                                    MB.maps[m].geocodeLayer.geojson(point);
-                                } else {
-                                    MB.maps[m].geocodeLayer = mmg()
-                                        .geojson(point);
-                                    MB.maps[m].addLayer(MB.maps[m].geocodeLayer);
-                                }
-
-                                MB.maps[m].setCenter({ lat: r.lat, lon: r.lon });
-                            }
+                            MB.maps[m].geocodeLayer = mmg()
+                                .geojson(point);
+                            MB.maps[m].addLayer(MB.maps[m].geocodeLayer);
                         }
+
+                        MB.maps[m].setCenter({ lat: r.lat, lon: r.lon });
                     }
-                });
-            break;
-        }
-        if ($('.wax-attribution').html().indexOf(opt.attribution) < 0) {
-            $('.wax-attribution').append(' - ' + opt.attribution);
+                }
+            }
+        });
+        var attribution = 'Search by <a href="http://developer.mapquest.com/web/products/open">MapQuest Open</a>';
+        if ($('.wax-attribution').html().indexOf(attribution) < 0) {
+            $('.wax-attribution').append(' - ' + attribution);
         }
     };
-};
+}
 
 MB.layout = function() {
     if (location.hash === '#embed') $('body').removeClass().addClass('embed');
@@ -208,3 +187,15 @@ MB.layout = function() {
         $('body').removeClass().addClass($(this).attr('id'));
     });
 };
+
+$(function() {
+    $('body').on('click.map', '[data-control="layer"]', function(e) {
+        var $this = $(this),
+            href = $this.attr('href');
+        href = href.replace(/.*(?=#[^\s]+$)/, '');
+        e.preventDefault();
+        console.log(href);
+    });
+
+    bindGeocoder();
+});

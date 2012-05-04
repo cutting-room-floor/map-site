@@ -17,12 +17,24 @@
             <p>The Neighbor-to-Neighbor Program of <a href="http://www.awidercircle.org/">A Wider Circle</a> provides furniture and other home items to families living without these basics.</p>
             <p>Browse the map to see who A Wider Circle has helped.</p>
         </div>
-        <div id="nav" class="layers"></div>
+        <div id="nav" class="layers">
+          <a data-control="layer" href="#zip">ZIP Codes</a>
+          <a data-control="layer" href="#donors">Donors</a>
+          <a data-control="layer" href="#recipients">Recipients</a>
+          <a data-control="layer" href="#both">Both</a>
+        </div>
         <h2>The full story</h2>
-        <p>Or browse the story with inline navigation. <a id="donors" href="#">See the donors</a> in NW DC.</p>
-        <p>Then move <a id="recipients" href="#">south east</a> to see where donations flow. Finally, zoom out to <a id="zip" href="#">see the regional impact</a>.</p>
+        <p>Or browse the story with inline navigation. <a data-control="map" href="#donors">See the donors</a> in NW DC.</p>
+        <p>Then move <a data-control='layer' href="#recipients">south east</a> to see where donations flow.
+        Finally, zoom out to <a data-control="layer" href="#zip">see the regional impact</a>.</p>
         <h2>See your neighborhood</h2>
-        <div id="search"></div>
+        <div data-control='geocode' id="search">
+          <form class="geocode">
+            <input placeholder='Search for an address' type="text">
+            <input type='submit' />
+            <div id='geocode-error'></div>
+          </form>
+        </div>
     </div></div>
     <div id="map" class="map"></div>
 
@@ -38,7 +50,7 @@
     <script type="text/javascript">
 
         // Make a new map in #map
-        new MB.map('map', {
+        MB.map('map', {
             id: 'mapbox.mapbox-light',
             center: {
                 lat: 38.8850033656251,
@@ -56,12 +68,10 @@
             ]
         });
 
-        // Make a new layer switch in #nav for `map`
-        new MB.layers('nav', 'map', [
-            {
+        MB.layers({
+            donors: {
                 name: 'Donors',
                 id: 'awidercircle.awc-addresses-don',
-                el: 'donors',
                 layer: 1,
                 center: {
                     lat: 38.913793178492,
@@ -70,10 +80,9 @@
                     ease: 1000
                 }
             },
-            {
+            recipients: {
                 name: 'Recipients',
                 id: 'awidercircle.awc-addresses-rec',
-                el: 'recipients',
                 layer: 1,
                 center: {
                     lat: 38.86585845552345,
@@ -82,10 +91,9 @@
                     ease: 2000
                 }
             },
-            {
+            both: {
                 name: 'Both',
                 id: 'awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec',
-                layer: 1,
                 center: {
                     lat: 38.90537696659096,
                     lon: -76.94918823242188,
@@ -93,10 +101,9 @@
                     ease: 2000
                 }
             },
-            {
+            zip: {
                 name: 'ZIP codes',
                 id: 'awidercircle.awc_don_rec_zip08',
-                el: 'zip',
                 layer: 1,
                 center: {
                     lat: 38.954386336035995,
@@ -105,14 +112,9 @@
                     ease: 1000
                 }
             }
-        ]);
-
-        new MB.geocoder('search', 'map', {
-            service: 'mapquest open',
-            attribution: 'Search by <a href="http://developer.mapquest.com/web/products/open">MapQuest Open</a>'
         });
 
-        new MB.layout();
+        MB.layout();
     </script>
 </body>
 </html>
