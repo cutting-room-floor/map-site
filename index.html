@@ -22,6 +22,7 @@
           <a data-control="layer" href="#donors">Donors</a>
           <a data-control="layer" href="#recipients">Recipients</a>
           <a data-control="layer" href="#both">Both</a>
+          <a data-control="layer" href="#night">Night time</a>
         </div>
         <h2>The full story</h2>
         <p>Or browse the story with inline navigation. <a data-control="map" href="#donors">See the donors</a> in NW DC.</p>
@@ -70,9 +71,7 @@
 
         main.layers({
             donors: {
-                name: 'Donors',
                 id: 'awidercircle.awc-addresses-don',
-                layer: 1,
                 center: {
                     lat: 38.913793178492,
                     lon: -77.02,
@@ -81,9 +80,7 @@
                 }
             },
             recipients: {
-                name: 'Recipients',
                 id: 'awidercircle.awc-addresses-rec',
-                layer: 1,
                 center: {
                     lat: 38.86585845552345,
                     lon: -76.97635364532469,
@@ -92,7 +89,6 @@
                 }
             },
             both: {
-                name: 'Both',
                 id: 'awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec',
                 center: {
                     lat: 38.90537696659096,
@@ -102,15 +98,17 @@
                 }
             },
             zip: {
-                name: 'ZIP codes',
                 id: 'awidercircle.awc_don_rec_zip08',
-                layer: 1,
                 center: {
                     lat: 38.954386336035995,
                     lon: -76.91768981933593,
                     zoom: 11,
                     ease: 1000
                 }
+            },
+            night: {
+                id: 'mapbox.mapbox-nightvision',
+                level: 'base'
             }
         });
     </script>

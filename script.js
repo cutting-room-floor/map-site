@@ -1,6 +1,5 @@
 (function(root) {
     var Map = {},
-        MM_map,
         layers;
 
     function api(l) {
@@ -85,11 +84,12 @@
         var l = layers[id];
 
         wax.tilejson(api(l), function(t) {
-            var layer = l.layer || 0;
+            var level = (l.level === 'base') ? 0 : 1;
+            
             try {
-                MM_map.setLayerAt(layer, new wax.mm.connector(t));
+                MM_map.setLayerAt(level, new wax.mm.connector(t));
             } catch (e) {
-                MM_map.insertLayerAt(layer, new wax.mm.connector(t));
+                MM_map.insertLayerAt(level, new wax.mm.connector(t));
             }
             if (MM_map.interaction) MM_map.interaction.tilejson(t);
             if (MM_map.legend) {
@@ -144,8 +144,8 @@ function bindGeocoder() {
             success: function (r) {
                 r = r[0];
 
-                if (MB.maps[m].geocodeLayer) {
-                    MB.maps[m].geocodeLayer.removeAllMarkers();
+                if (MM_map.geocodeLayer) {
+                    MM_map.geocodeLayer.removeAllMarkers();
                 }
 
                 $('form.geocode').removeClass('loading');
@@ -154,28 +154,28 @@ function bindGeocoder() {
                     $('#geocode-error').text('This address cannot be found.').fadeIn('fast');
                 } else {
                     $('#geocode-error').hide();
-                    MB.maps[m].setExtent([
+                    MM_map.setExtent([
                         { lat: r.boundingbox[1], lon: r.boundingbox[2] },
                         { lat: r.boundingbox[0], lon: r.boundingbox[3] }
                     ]);
 
-                    if (MB.maps[m].getZoom() === MB.maps[m].coordLimits[1].zoom) {
+                    if (MM_map.getZoom() === MM_map.coordLimits[1].zoom) {
                         var point = { 'type': 'FeatureCollection',
                             'features': [{ 'type': 'Feature',
                             'geometry': { 'type': 'Point','coordinates': [r.lon, r.lat] },
                             'properties': {}
                         }]};
 
-                        if (MB.maps[m].geocodeLayer) {
-                            MB.maps[m].geocodeLayer.removeAllMarkers();
-                            MB.maps[m].geocodeLayer.geojson(point);
+                        if (MM_map.geocodeLayer) {
+                            MM_map.geocodeLayer.removeAllMarkers();
+                            MM_map.geocodeLayer.geojson(point);
                         } else {
-                            MB.maps[m].geocodeLayer = mmg()
+                            MM_map.geocodeLayer = mmg()
                                 .geojson(point);
-                            MB.maps[m].addLayer(MB.maps[m].geocodeLayer);
+                            MM_map.addLayer(MM_map.geocodeLayer);
                         }
 
-                        MB.maps[m].setCenter({ lat: r.lat, lon: r.lon });
+                        MM_map.setCenter({ lat: r.lat, lon: r.lon });
                     }
                 }
             }
