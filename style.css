@@ -97,7 +97,7 @@ body > div {
   top:0;
   right:0;
   left:0;
-  height:30px;
+  height:29px;
   background:rgb(255,255,255);
   background:rgba(255,255,255, 0.9);
   border-bottom:1px solid #ccc;
@@ -129,7 +129,7 @@ body > div {
   top:50px;
   right:0;
   bottom:0;
-  width:280px;
+  width:279px;
   background:rgb(255,255,255);
   background:rgba(255,255,255, 0.9);
   border-left:1px solid #ccc;
@@ -212,12 +212,12 @@ a.zoomer {
 
 .wax-tooltip {
   left:auto;
-  right:350px;
+  right:330px;
   top:60px;
 }
 .wax-legends {
   left:auto;
-  right:350px;
+  right:330px;
   width:290px;
 }
 .wax-share h3 {
@@ -236,7 +236,7 @@ a.zoomer {
 }
 .share {
   top:95px;
-  z-index:2;
+  z-index:1000;
 }
 
 .mmg-default {
@@ -368,9 +368,6 @@ a.zoomer {
   width:100px;
   text-align:center;
   border:1px solid #ccc;
-}
-.embed.sharing .layers {
-  visibility:hidden;
 }
 
 #layout {

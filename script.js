@@ -46,7 +46,7 @@
                         wax.mm.bwdetect(MM_map);
                         break;
                     case 'share':
-                        wax.mm.share(MM_map, t).appendTo(MM_map.parent);
+                        wax.mm.share(MM_map, t).appendTo($('body')[0]);
                         break;
                     case 'tooltips':
                         MM_map.interaction = wax.mm.interaction()
@@ -110,6 +110,15 @@
                 MM_map.setCenterZoom({ lat: lat, lon: lon }, zoom);
             }
         }
+    };
+
+    Map.removeOverlay = function(id) {
+
+        if (!layers[id]) throw new Error('overlay with id ' + id + ' not found');
+        var l = layers[id];
+
+        var level = (l.level === 'base') ? 0 : 1;
+        MM_map.removeLayerAt(level);
     };
 
     root.Map = Map;
@@ -190,19 +199,20 @@ function bindGeocoder() {
 $(function() {
     if (location.hash === '#embed') $('body').removeClass().addClass('embed');
 
-    $('body').append('<div id="layout"><a href="#" id="right">right</a><a href="#" id="left">left</a><a href="#" id="hero">hero</a></div>');
-    $('#layout a').click(function(e) {
-        e.preventDefault();
-        $('body').removeClass().addClass($(this).attr('id'));
-    });
-
     $('body').on('click.map', '[data-control="layer"]', function(e) {
         var $this = $(this),
             id = $this.attr('href');
         id = id.replace(/.*(?=#[^\s]+$)/, '').slice(1);
         var m = $('[data-control="geocode"]').attr('data-map') || 'main';
         e.preventDefault();
-        window[m].setOverlay(id);
+        if($this.hasClass('active')) {
+            $('[data-control="layer"]').removeClass('active');
+            window[m].removeOverlay(id);        
+        } else {
+            $('[data-control="layer"]').removeClass('active');
+            $this.addClass('active');
+            window[m].setOverlay(id);
+        }
     });
 
     bindGeocoder();

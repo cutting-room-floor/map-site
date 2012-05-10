@@ -22,7 +22,6 @@
           <a data-control="layer" href="#donors">Donors</a>
           <a data-control="layer" href="#recipients">Recipients</a>
           <a data-control="layer" href="#both">Both</a>
-          <a data-control="layer" href="#night">Night time</a>
         </div>
         <h2>The full story</h2>
         <p>Or browse the story with inline navigation. <a data-control="map" href="#donors">See the donors</a> in NW DC.</p>
@@ -42,11 +41,12 @@
     <!-- External libraries and site script -->
     <script src="ext/jquery.min.js"></script>
     <script src="ext/modestmaps.min.js"></script>
-    <script src="ext/wax/wax.mm.min.js"></script>
+    <script src="ext/wax/wax.mm.js"></script>
+    <script src="ext/wax/wax.ext.js"></script>
     <script src="ext/easey.js"></script>
     <script src="ext/mmg.js"></script>
     <script src="script.js"></script>
-
+    
     <!-- Site configuration -->
     <script type="text/javascript">
 
@@ -105,10 +105,6 @@
                     zoom: 11,
                     ease: 1000
                 }
-            },
-            night: {
-                id: 'mapbox.mapbox-nightvision',
-                level: 'base'
             }
         });
     </script>
