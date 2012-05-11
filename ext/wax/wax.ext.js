@@ -162,7 +162,7 @@ wax.mm.share = function(map, tilejson) {
     embed.className = 'embed';
     embed.rows = 4;
     embed.setAttribute('readonly', 'readonly');
-    embed.value = "<iframe width='500' height='300' frameBorder='0' src='{{embed}}'></iframe>"
+    embed.value = '<iframe width="500" height="300" frameBorder="0" src="{{embed}}"></iframe>'
         .replace('{{embed}}', tilejson.embed);
     embed.onclick = function() {
         embed.focus();
@@ -175,13 +175,13 @@ wax.mm.share = function(map, tilejson) {
     var facebook = 'https://www.facebook.com/sharer.php?u='
         + encodeURIComponent(tilejson.webpage)
         + '&t=' + encodeURIComponent(document.title);
-    share.innerHTML = ("<h3>Share this map</h3>"
-        + "<p><a class='facebook' target='_blank' href='{{facebook}}'>Facebook</a>"
-        + "<a class='twitter' target='_blank' href='{{twitter}}'>Twitter</a></p>")
+    share.innerHTML = ('<h3>Share this map</h3>'
+        + '<p><a class="facebook" target="_blank" href="{{facebook}}">Facebook</a>'
+        + '<a class="twitter" target="_blank" href="{{twitter}}">Twitter</a></p>')
         .replace('{{twitter}}', twitter)
         .replace('{{facebook}}', facebook);
-    share.innerHTML += "<strong>Get the embed code</strong><br />"
-    share.innerHTML += "<small>Copy and paste this HTML into your website or blog.</small>";
+    share.innerHTML += '<strong>Get the embed code</strong><br />'
+    share.innerHTML += '<small>Copy and paste this HTML into your website or blog.</small>';
     share.appendChild(embed);
     share.appendChild(close);
 
