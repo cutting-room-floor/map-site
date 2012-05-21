@@ -52,7 +52,7 @@
 
         // Make a new map in #map
         var main = Map('map', {
-            id: 'mapbox.mapbox-light',
+            api: 'http://a.tiles.mapbox.com/v3/mapbox.mapbox-light.jsonp',
             center: {
                 lat: 38.8850033656251,
                 lon: -77.01439615889109,
@@ -71,7 +71,7 @@
 
         main.layers({
             donors: {
-                id: 'awidercircle.awc-addresses-don',
+                api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don.jsonp',
                 center: {
                     lat: 38.913793178492,
                     lon: -77.02,
@@ -80,7 +80,7 @@
                 }
             },
             recipients: {
-                id: 'awidercircle.awc-addresses-rec',
+                api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-rec.jsonp',
                 center: {
                     lat: 38.86585845552345,
                     lon: -76.97635364532469,
@@ -89,7 +89,7 @@
                 }
             },
             both: {
-                id: 'awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec',
+                api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec.jsonp',
                 center: {
                     lat: 38.90537696659096,
                     lon: -76.94918823242188,
@@ -98,7 +98,7 @@
                 }
             },
             zip: {
-                id: 'awidercircle.awc_don_rec_zip08',
+                api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc_don_rec_zip08.jsonp',
                 center: {
                     lat: 38.954386336035995,
                     lon: -76.91768981933593,
