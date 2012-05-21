@@ -6,4 +6,5 @@ auto: true
 server: true
 permalink: /:title
 exclude:
-  - readme.md
+    - .gitignore
+    - readme.md
