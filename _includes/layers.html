@@ -1,0 +1,11 @@
+{% comment %}
+
+An html block that generates links for the layer switcher.
+
+{% endcomment %}
+
+<div id="layerswitch" class="layers">
+    {% for layer in page.layers %}
+    <a data-control="layer" href="#{{ layer.name | downcase | cgi_escape }}">{{ layer.name }}</a>
+    {% endfor %}
+</div>

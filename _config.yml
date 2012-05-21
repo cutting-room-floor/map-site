@@ -1,4 +1,9 @@
+# Sitewide configuration settings. Set `title` to the site title, which
+# will be appended to the URL following {{page.title}} |
+
+title: Map Site
 auto: true
 server: true
+permalink: /:title
 exclude:
   - readme.md

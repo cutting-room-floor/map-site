@@ -1,4 +1,10 @@
 ---
 ---
+{% comment %}
+
+This file aggregates css files in the _includes/css directory
+
+{% endcomment%}
+
 {% include css/map.css %}
 {% include css/style.css %}

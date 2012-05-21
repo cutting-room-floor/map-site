@@ -1,0 +1,24 @@
+{% comment %}
+
+This is the default site-wide html markup template. It's designed to be as
+lightweight as possible since it applies to all pages.
+
+{% endcomment%}
+
+
+<!DOCTYPE html>
+{% assign base = site.baseurl %}
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{{page.title}} | {{site.title}}</title>
+    <link rel="stylesheet" href="{{base}}/all.css" type="text/css" />
+    <link rel="shortcut icon" href="{{base}}/img/favicon.ico" type="image/x-icon" />
+    <script src="{{base}}/all.js"></script>
+</head>
+<body {% if page.class %}class="{{page.class}}"{% endif %}>
+
+{{content}}
+
+</body>
+</html>

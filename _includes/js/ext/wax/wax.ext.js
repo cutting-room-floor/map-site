@@ -1,3 +1,5 @@
+// stop Jekyll from trying to parse template tags {% raw %}
+
 // Override movetips positioning
 
 var wax = wax || {};
@@ -169,3 +171,5 @@ wax.mm.share = function(map, tilejson) {
         }
     };
 };
+
+// {% endraw %}

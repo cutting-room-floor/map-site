@@ -1,0 +1,28 @@
+{% comment %}
+
+This is a layout template with an inline map feature. Adjustments made here 
+will affect all pages using this template. Copy it and change the file name
+to create a derivative layout.
+
+{% endcomment%}
+
+---
+layout: default
+class: hero
+---
+<!-- Map -->
+<div id="map" class="map"></div>
+
+<!-- Header -->
+<div id="header"><div class="limiter">
+    <img src="{{base}}/img/logo.png"><h1>{{page.title}}</h1>
+</div></div>
+
+<!-- Content -->
+<div id="content"><div class="limiter">{{content}}</div></div>
+
+<!-- Footer -->
+<div id="footer"></div>
+
+<!-- Map configuration -->
+{% include map-configuration.html %}

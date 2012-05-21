@@ -1,0 +1,63 @@
+{% comment %}
+
+This include file parses map metadata from each post and builds the map template
+configuration. Docs: https://github.com/mapbox/map-site/#javascript-interaction
+
+{% endcomment%}
+
+<script type="text/javascript">
+{% assign map = page.map %}
+
+var main = Map('map', {
+    api: '{{map.api}}'
+    
+    {% if map.center %}
+    , center: {
+        lat: {{map.center.lat}},
+        lon: {{map.center.lon}}
+        {% if map.center.zoom %}, zoom: {{map.center.zoom}} {% endif %}
+    }
+    {% endif %}
+    
+    {% if map.zoomrange %}
+    , zoomRange: [{{map.zoomrange[0]}}, {{map.zoomrange[1]}}]
+    {% endif %}
+    
+    {% if map.features %}
+    , features: [
+        {% for feature in map.features %}
+        '{{feature}}' {% if forloop.last != true %}, {% endif %}
+        {% endfor %}
+    ]
+    {% endif %}
+});
+
+{% if page.layers %}
+{% assign layers = page.layers %}
+
+main.layers({
+    {% for layer in layers %}
+    '{{ layer.name | downcase | cgi_escape }}': {
+        {% if layer.api %}
+        api: '{{layer.api}}'
+        {% endif %}
+        {% if layer.api and layer.center %}, {% endif %}
+        {% if layer.center %}
+        {% assign center = layer.center %}
+        center: {
+            {% if center.lat and center.lon %}
+            lat: {{center.lat}},
+            lon: {{center.lon}} {% if center.zoom %},{% endif %}
+            {% endif %}
+            {% if center.zoom %} zoom: {{center.zoom}}{% endif %}
+            {% if center.lat or center.zoom %}
+            {% if center.ease %}, ease: {{center.ease}} {% endif %}
+            {% endif %}
+        }
+        {% endif %}
+    }
+    {% if forloop.last != true %}, {% endif %}
+    {% endfor%}
+});
+{% endif %}
+</script>
