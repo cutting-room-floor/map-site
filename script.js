@@ -99,6 +99,7 @@
                 $.each(Map.layerGroups, function(index, layer) {
                     if (layer && layer.api) {
                         layerIds.push(layer.api.match(/v\d\/(.*?).jsonp/)[1]);
+                        $('[href="#' + layer.id + '"]').addClass('active');
                     }
                 });
                 return 'http://a.tiles.mapbox.com/v3/' + layerIds.join(',') + '.jsonp';
@@ -142,16 +143,6 @@
         l.group = l.group || 0;
         delete Map.layerGroups[l.group];
 
-        function cleanArray(actual){
-            var newArray = new Array();
-            for(var i = 0; i<actual.length; i++){
-                if (actual[i]){
-                    newArray.push(actual[i]);
-                }
-            }
-            return newArray;
-        }
-
         if (cleanArray(Map.layerGroups).length > 0) {
             Map.setOverlay();
         } else {
@@ -161,35 +152,49 @@
             if (MM_map.interaction) MM_map.interaction.remove();
         }
     };
-    
+
     Map.parseHash = function() {
-        var hashes = window.location.toString().split('#').shift();
+
+        // TODO: update the embed hash and website url
+
+        var hashes = window.location.hash.split('#');
         $.each(hashes, function(index, hash) {
-            if (hash === 'embed') $('body').removeClass().addClass('embed');
-            if (hash.substring(0,1) === '!') {
-                var layers = decodeURIComponent(hash).split(',');
-                $.each(layers, function(i, layer) {
+            if (hash === 'embed') {
+                $('body').removeClass().addClass('embed');
+            } else if (hash.substring(0,1) === '!') {
+                var ids = decodeURIComponent(hash.substring(1)).split('/');
+                $.each(ids, function(i, layer) {
                     if (layer !== '-') {
                         Map.layerGroups[i] = {
                             id: layer,
-                            api: Map.layers[layer].api
+                            api: layers[layer].api
                         };
                     }
-                });    
+                });
             }
         });
+        if (cleanArray(Map.layerGroups).length > 0) {
+            Map.setOverlay();
+        }
     };
 
     Map.setHash = function() {
         var hash = [];
 
         $.each(Map.layerGroups, function(index, layer) {
-            var id = (layer && layer.id) ? '-';
-            hash.push(id);
+            var id = (layer && layer.id) ? layer.id : '-';
+            hash.push(encodeURIComponent(id));
         });
 
-        return '#!' + encodeURIComponent(hash.join(','));
-    };   
+        var l = window.location,
+            state = '#!' + hash.join('/');
+
+        if (l.hash) {
+            l.replace(l.toString().split('#')[0] + state);
+        } else {
+            l.replace(l.toString() + state);
+        }
+    };
 
     root.Map = Map;
 
@@ -266,6 +271,16 @@ function bindGeocoder() {
     };
 }
 
+function cleanArray(actual){
+    var newArray = new Array();
+    for(var i = 0; i<actual.length; i++){
+        if (actual[i]){
+            newArray.push(actual[i]);
+        }
+    }
+    return newArray;
+}
+
 $(function() {
     Map.parseHash();
 
@@ -282,11 +297,6 @@ $(function() {
             $('[data-control="layer"]').removeClass('active');
             window[m].setOverlay(id);
         }
-        $.each(Map.layerGroups, function(index, layer) {
-            if (layer && layer.id) {
-                $('[href="#' + layer.id + '"]').addClass('active');
-            }
-        });
         Map.setHash();
     });
 
