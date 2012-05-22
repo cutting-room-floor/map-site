@@ -41,8 +41,8 @@ main.layers({
         {% if layer.api %}
         api: '{{layer.api}}'
         {% endif %}
-        {% if layer.api and layer.center %}, {% endif %}
         {% if layer.center %}
+        {% if layer.api %}, {% endif %}
         {% assign center = layer.center %}
         center: {
             {% if center.lat and center.lon %}
@@ -54,6 +54,10 @@ main.layers({
             {% if center.ease %}, ease: {{center.ease}} {% endif %}
             {% endif %}
         }
+        {% endif %}
+        {% if layer.group %}
+        {% if layer.api or layer.center %}, {% endif %}
+        group: {{layer.group}}
         {% endif %}
     }
     {% if forloop.last != true %}, {% endif %}

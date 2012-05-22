@@ -28,9 +28,11 @@ layers:
     - name: "Donors"
       api: "http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don.jsonp"
       center: {lat: 38.913793178492, lon: -77.02, zoom: 13, ease: 1000}
+      group: 1
     - name: "Recipients"
       api: "http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-rec.jsonp"
       center: {lat: 38.86585845552345, lon: -76.97635364532469, zoom: 14, ease: 2000}
+      group: 1
     - name: "Both"
       api: "http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec.jsonp"
       center: {lat: 38.90537696659096, lon: -76.94918823242188, zoom: 12, ease: 2000}
