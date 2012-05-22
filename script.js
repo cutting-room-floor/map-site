@@ -85,35 +85,39 @@
 
             l.group = l.group || 0;
 
-            Map.layerGroups[l.group] = {
-                id: id,
-                api: l.api
-            };
+            if (l.api) {
+                Map.layerGroups[l.group] = {
+                    id: id,
+                    api: l.api
+                };
+            }
         }
 
-        var compositedLayers = function() {
-            var layerIds = [];
-            $.each(Map.layerGroups, function(index, layer) {
-                if (layer && layer.api) {
-                    layerIds.push(layer.api.match(/v\d\/(.*?).jsonp/)[1]);
+        if ((l && l.api) || (!l && Map.layerGroups.length > 0)) {
+            var compositedLayers = function() {
+                var layerIds = [];
+                $.each(Map.layerGroups, function(index, layer) {
+                    if (layer && layer.api) {
+                        layerIds.push(layer.api.match(/v\d\/(.*?).jsonp/)[1]);
+                    }
+                });
+                return 'http://a.tiles.mapbox.com/v3/' + layerIds.join(',') + '.jsonp';
+            };
+
+            wax.tilejson(compositedLayers(), function(t) {
+                var level = (l && l.level === 'base') ? 0 : 1;
+
+                try {
+                    MM_map.setLayerAt(level, new wax.mm.connector(t));
+                } catch (e) {
+                    MM_map.insertLayerAt(level, new wax.mm.connector(t));
+                }
+                if (MM_map.interaction) MM_map.interaction.map(MM_map).tilejson(t);
+                if (MM_map.legend) {
+                    MM_map.legend.content(t);
                 }
             });
-            return 'http://a.tiles.mapbox.com/v3/' + layerIds.join(',') + '.jsonp';
-        };
-
-        wax.tilejson(compositedLayers(), function(t) {
-            var level = (l && l.level === 'base') ? 0 : 1;
-
-            try {
-                MM_map.setLayerAt(level, new wax.mm.connector(t));
-            } catch (e) {
-                MM_map.insertLayerAt(level, new wax.mm.connector(t));
-            }
-            if (MM_map.interaction) MM_map.interaction.map(MM_map).tilejson(t);
-            if (MM_map.legend) {
-                MM_map.legend.content(t);
-            }
-        });
+        }
 
         if (l && l.center) {
             var lat = l.center.lat || MM_map.getCenter().lat,
