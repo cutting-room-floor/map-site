@@ -161,6 +161,35 @@
             if (MM_map.interaction) MM_map.interaction.remove();
         }
     };
+    
+    Map.parseHash = function() {
+        var hashes = window.location.toString().split('#').shift();
+        $.each(hashes, function(index, hash) {
+            if (hash === 'embed') $('body').removeClass().addClass('embed');
+            if (hash.substring(0,1) === '!') {
+                var layers = decodeURIComponent(hash).split(',');
+                $.each(layers, function(i, layer) {
+                    if (layer !== '-') {
+                        Map.layerGroups[i] = {
+                            id: layer,
+                            api: Map.layers[layer].api
+                        };
+                    }
+                });    
+            }
+        });
+    };
+
+    Map.setHash = function() {
+        var hash = [];
+
+        $.each(Map.layerGroups, function(index, layer) {
+            var id = (layer && layer.id) ? '-';
+            hash.push(id);
+        });
+
+        return '#!' + encodeURIComponent(hash.join(','));
+    };   
 
     root.Map = Map;
 
@@ -238,7 +267,7 @@ function bindGeocoder() {
 }
 
 $(function() {
-    if (location.hash === '#embed') $('body').removeClass().addClass('embed');
+    Map.parseHash();
 
     $('body').on('click.map', '[data-control="layer"]', function(e) {
         var $this = $(this),
@@ -258,6 +287,7 @@ $(function() {
                 $('[href="#' + layer.id + '"]').addClass('active');
             }
         });
+        Map.setHash();
     });
 
     bindGeocoder();
