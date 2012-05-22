@@ -75,14 +75,35 @@
         return Map;
     };
 
+    Map.layerGroups = [];
+
     Map.setOverlay = function(id) {
 
-        if (!layers[id]) throw new Error('overlay with id ' + id + ' not found');
-        var l = layers[id];
+        if (id) {
+            if (!layers[id]) throw new Error('overlay with id ' + id + ' not found');
+            var l = layers[id];
 
-        wax.tilejson(l.api, function(t) {
-            var level = (l.level === 'base') ? 0 : 1;
-            
+            l.group = l.group || 0;
+
+            Map.layerGroups[l.group] = {
+                id: id,
+                api: l.api
+            };
+        }
+
+        var compositedLayers = function() {
+            var layerIds = [];
+            $.each(Map.layerGroups, function(index, layer) {
+                if (layer && layer.api) {
+                    layerIds.push(layer.api.match(/v\d\/(.*?).jsonp/)[1]);
+                }
+            });
+            return 'http://a.tiles.mapbox.com/v3/' + layerIds.join(',') + '.jsonp';
+        };
+
+        wax.tilejson(compositedLayers(), function(t) {
+            var level = (l && l.level === 'base') ? 0 : 1;
+
             try {
                 MM_map.setLayerAt(level, new wax.mm.connector(t));
             } catch (e) {
@@ -94,7 +115,7 @@
             }
         });
 
-        if (l.center) {
+        if (l && l.center) {
             var lat = l.center.lat || MM_map.getCenter().lat,
                 lon = l.center.lon || MM_map.getCenter().lon,
                 zoom = l.center.zoom || MM_map.getZoom();
@@ -114,10 +135,27 @@
         if (!layers[id]) throw new Error('overlay with id ' + id + ' not found');
         var l = layers[id];
 
-        var level = (l.level === 'base') ? 0 : 1;
-        MM_map.removeLayerAt(level);
-        if (MM_map.legend) MM_map.legend.content(' ');
-        if (MM_map.interaction) MM_map.interaction.remove();
+        l.group = l.group || 0;
+        delete Map.layerGroups[l.group];
+
+        function cleanArray(actual){
+            var newArray = new Array();
+            for(var i = 0; i<actual.length; i++){
+                if (actual[i]){
+                    newArray.push(actual[i]);
+                }
+            }
+            return newArray;
+        }
+
+        if (cleanArray(Map.layerGroups).length > 0) {
+            Map.setOverlay();
+        } else {
+            var level = (l.level === 'base') ? 0 : 1;
+            MM_map.removeLayerAt(level);
+            if (MM_map.legend) MM_map.legend.content(' ');
+            if (MM_map.interaction) MM_map.interaction.remove();
+        }
     };
 
     root.Map = Map;
@@ -206,12 +244,16 @@ $(function() {
         e.preventDefault();
         if($this.hasClass('active')) {
             $('[data-control="layer"]').removeClass('active');
-            window[m].removeOverlay(id);        
+            window[m].removeOverlay(id);
         } else {
             $('[data-control="layer"]').removeClass('active');
-            $this.addClass('active');
             window[m].setOverlay(id);
         }
+        $.each(Map.layerGroups, function(index, layer) {
+            if (layer && layer.id) {
+                $('[href="#' + layer.id + '"]').addClass('active');
+            }
+        });
     });
 
     bindGeocoder();

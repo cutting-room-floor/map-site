@@ -128,11 +128,13 @@ main.layers({
             lon: -77.00126406355,   // for the map. Specific either
             zoom: 14,               // lat and lon, zoom, or both.
             ease: 500               // Optional time to animimate moving
-        }                           // the map in milliseconds.
+        },                          // the map in milliseconds.
+        group: 1                    // An internally exclusive layer group
     },
     construction: {
         api: 'http://a.tiles.mapbox.com/v3/mapbox.dc-construction.jsonp',
-        center: { zoom: 12, ease: 1000 }
+        center: { zoom: 12, ease: 1000 },
+        group: 1
     }
 });
 
@@ -142,6 +144,7 @@ Here, each layer gets a name, in this case `building` and `construction` that bi
 
 - `api` If api is specified, this map layer will be displayed on top of the base map specified when the map was initialized. The API URL may be omitted if you only want the layer to move the map and not add new content
 - `center` The center object has `lat`, `lon`, and `zoom` properties. If `zoom` is omitted, the map will be repositioned, but keep its current zoom level. If `lat` and `lon` are omitted but `zoom` is specified, the map will change zoom level but keep its current centerpoint. There's an additional property called `ease`, which is the time in milliseconds to animate moving the map to the new location. It's optional too. Omitting it will snap the map to its new location.
+- `group` An optional group property for each layer. Layers within the same group are exclusive and can only be displayed one at a time. Layers in different groups are inclusive and will be stacked in order of the group number.
 
 Add as many layers as you need and bind them to any link element. Layers are exclusive and will toggle on and off on click or tap.
 

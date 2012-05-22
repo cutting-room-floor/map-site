@@ -18,10 +18,10 @@
             <p>Browse the map to see who A Wider Circle has helped.</p>
         </div>
         <div id="nav" class="layers">
-          <a data-control="layer" href="#zip">ZIP Codes</a>
           <a data-control="layer" href="#donors">Donors</a>
           <a data-control="layer" href="#recipients">Recipients</a>
           <a data-control="layer" href="#both">Both</a>
+          <a data-control="layer" href="#zip">ZIP Codes</a>
         </div>
         <h2>The full story</h2>
         <p>Or browse the story with inline navigation. <a data-control="map" href="#donors">See the donors</a> in NW DC.</p>
@@ -77,7 +77,8 @@
                     lon: -77.02,
                     zoom: 13,
                     ease: 1000
-                }
+                },
+                group: 1
             },
             recipients: {
                 api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-rec.jsonp',
@@ -86,7 +87,8 @@
                     lon: -76.97635364532469,
                     zoom: 14,
                     ease: 2000
-                }
+                },
+                group: 1
             },
             both: {
                 api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec.jsonp',
@@ -95,7 +97,8 @@
                     lon: -76.94918823242188,
                     zoom: 12,
                     ease: 2000
-                }
+                },
+                group: 2
             },
             zip: {
                 api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc_don_rec_zip08.jsonp',
@@ -104,7 +107,8 @@
                     lon: -76.91768981933593,
                     zoom: 11,
                     ease: 1000
-                }
+                },
+                group: 2
             }
         });
     </script>
