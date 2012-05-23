@@ -99,6 +99,7 @@
                 $.each(Map.layerGroups, function(index, layer) {
                     if (layer && layer.api) {
                         layerIds.push(layer.api.match(/v\d\/(.*?).jsonp/)[1]);
+                        $('[href="#' + layer.id + '"]').addClass('active');
                     }
                 });
                 return 'http://a.tiles.mapbox.com/v3/' + layerIds.join(',') + '.jsonp';
@@ -142,16 +143,6 @@
         l.group = l.group || 0;
         delete Map.layerGroups[l.group];
 
-        function cleanArray(actual){
-            var newArray = new Array();
-            for(var i = 0; i<actual.length; i++){
-                if (actual[i]){
-                    newArray.push(actual[i]);
-                }
-            }
-            return newArray;
-        }
-
         if (cleanArray(Map.layerGroups).length > 0) {
             Map.setOverlay();
         } else {
@@ -160,6 +151,65 @@
             if (MM_map.legend) MM_map.legend.content(' ');
             if (MM_map.interaction) MM_map.interaction.remove();
         }
+    };
+
+    Map.parseHash = function() {
+        var pattern = /(?:#([^\?]*))?(?:\?(.*))?$/,
+            components = window.location.href.match(pattern);
+
+        if (components && components[2] === 'embed') {
+            $('body').removeClass().addClass('embed');
+            window.location.replace(window.location.href.split('?')[0]);
+        }
+
+        if (components && components[1]) {
+            var hash = components[1];
+            if (hash.substr(0, 1) === '/') hash = hash.substring(1);
+            if (hash.substr(hash.length - 1, 1) === '/') hash = hash.substr(0, hash.length - 1);
+
+            ids = decodeURIComponent(hash).split('/');
+
+
+            $.each(ids, function(i, layer) {
+                if (layer !== '-' && layers[layer]) {
+                    Map.layerGroups[i] = {
+                        id: layer,
+                        api: layers[layer].api
+                    };
+                }
+            });
+        }
+        if (cleanArray(Map.layerGroups).length > 0) Map.setOverlay();
+    };
+
+    Map.setHash = function() {
+        var hash = [];
+
+        $.each(Map.layerGroups, function(index, layer) {
+            var id = (layer && layer.id) ? layer.id : '-';
+            hash.push(encodeURIComponent(id));
+        });
+
+        var l = window.location,
+            baseUrl = l.href,
+            state = (hash.length > 0) ? '#/' + hash.join('/') : '';
+
+        if (baseUrl.indexOf('?') >= 0) baseUrl = baseUrl.split('?')[0];
+        if (baseUrl.indexOf('#') >= 0) baseUrl = baseUrl.split('#')[0];
+
+        l.replace(baseUrl + state);
+
+        // Update share urls
+        var webpage = l.href;
+        var embed = (l.hash) ? l.href + '?embed' : l.href + '#/?embed';
+
+        $('.wax-share textarea.embed').val(
+            '<iframe width="500" height="300" frameBorder="0" src="{{embed}}"></iframe>'
+            .replace('{{embed}}', embed));
+        $('.wax-share a.twitter').attr('href', 'http://twitter.com/intent/tweet?status='
+            + encodeURIComponent(document.title + ' (' + webpage + ')'));
+        $('.wax-share a.facebook').attr('href', 'https://www.facebook.com/sharer.php?u='
+            + encodeURIComponent(webpage) + '&t=' + encodeURIComponent(document.title));
     };
 
     root.Map = Map;
@@ -237,8 +287,18 @@ function bindGeocoder() {
     };
 }
 
+function cleanArray(actual){
+    var newArray = new Array();
+    for(var i = 0; i<actual.length; i++){
+        if (actual[i]){
+            newArray.push(actual[i]);
+        }
+    }
+    return newArray;
+}
+
 $(function() {
-    if (location.hash === '#embed') $('body').removeClass().addClass('embed');
+    Map.parseHash();
 
     $('body').on('click.map', '[data-control="layer"]', function(e) {
         var $this = $(this),
@@ -253,11 +313,7 @@ $(function() {
             $('[data-control="layer"]').removeClass('active');
             window[m].setOverlay(id);
         }
-        $.each(Map.layerGroups, function(index, layer) {
-            if (layer && layer.id) {
-                $('[href="#' + layer.id + '"]').addClass('active');
-            }
-        });
+        Map.setHash();
     });
 
     bindGeocoder();
