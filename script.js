@@ -154,28 +154,32 @@
     };
 
     Map.parseHash = function() {
+        var pattern = /(?:#([^\?]*))?(?:\?(.*))?$/,
+            components = window.location.href.match(pattern);
 
-        // TODO: update the embed hash and website url
-
-        var hashes = window.location.hash.split('#');
-        $.each(hashes, function(index, hash) {
-            if (hash === 'embed') {
-                $('body').removeClass().addClass('embed');
-            } else if (hash.substring(0,1) === '!') {
-                var ids = decodeURIComponent(hash.substring(1)).split('/');
-                $.each(ids, function(i, layer) {
-                    if (layer !== '-') {
-                        Map.layerGroups[i] = {
-                            id: layer,
-                            api: layers[layer].api
-                        };
-                    }
-                });
-            }
-        });
-        if (cleanArray(Map.layerGroups).length > 0) {
-            Map.setOverlay();
+        if (components && components[2] === 'embed') {
+            $('body').removeClass().addClass('embed');
+            window.location.replace(window.location.href.split('?')[0]);
         }
+
+        if (components && components[1]) {
+            var hash = components[1];
+            if (hash.substr(0, 1) === '/') hash = hash.substring(1);
+            if (hash.substr(hash.length - 1, 1) === '/') hash = hash.substr(0, hash.length - 1);
+
+            ids = decodeURIComponent(hash).split('/');
+
+
+            $.each(ids, function(i, layer) {
+                if (layer !== '-' && layers[layer]) {
+                    Map.layerGroups[i] = {
+                        id: layer,
+                        api: layers[layer].api
+                    };
+                }
+            });
+        }
+        if (cleanArray(Map.layerGroups).length > 0) Map.setOverlay();
     };
 
     Map.setHash = function() {
@@ -187,13 +191,25 @@
         });
 
         var l = window.location,
-            state = '#!' + hash.join('/');
+            baseUrl = l.href,
+            state = (hash.length > 0) ? '#/' + hash.join('/') : '';
 
-        if (l.hash) {
-            l.replace(l.toString().split('#')[0] + state);
-        } else {
-            l.replace(l.toString() + state);
-        }
+        if (baseUrl.indexOf('?') >= 0) baseUrl = baseUrl.split('?')[0];
+        if (baseUrl.indexOf('#') >= 0) baseUrl = baseUrl.split('#')[0];
+
+        l.replace(baseUrl + state);
+
+        // Update share urls
+        var webpage = l.href;
+        var embed = (l.hash) ? l.href + '?embed' : l.href + '#/?embed';
+
+        $('.wax-share textarea.embed').val(
+            '<iframe width="500" height="300" frameBorder="0" src="{{embed}}"></iframe>'
+            .replace('{{embed}}', embed));
+        $('.wax-share a.twitter').attr('href', 'http://twitter.com/intent/tweet?status='
+            + encodeURIComponent(document.title + ' (' + webpage + ')'));
+        $('.wax-share a.facebook').attr('href', 'https://www.facebook.com/sharer.php?u='
+            + encodeURIComponent(webpage) + '&t=' + encodeURIComponent(document.title));
     };
 
     root.Map = Map;

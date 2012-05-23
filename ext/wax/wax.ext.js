@@ -95,8 +95,9 @@ wax.mm = wax.mm || {};
 wax.g.share =
 wax.mm.share = function(map, tilejson) {
     tilejson = tilejson || {};
-    tilejson.webpage = window.location.toString().split('#')[0];
-    tilejson.embed = window.location.toString().split('#')[0] + '#embed';
+    var l = window.location;
+    tilejson.webpage = l.href;
+    tilejson.embed = (l.hash) ? l.href + '?embed' : l.href + '#/?embed';
 
     var link = document.createElement('a');
     var close = document.createElement('a');
