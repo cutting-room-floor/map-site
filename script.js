@@ -204,8 +204,8 @@
         var embed = (l.hash) ? l.href + '?embed' : l.href + '#/?embed';
 
         $('.wax-share textarea.embed').val(
-            '<iframe width="500" height="300" frameBorder="0" src="{{embed}}"></iframe>'
-            .replace('{{embed}}', embed));
+            '<iframe width="500" height="300" frameBorder="0" src="{embed}"></iframe>'
+            .replace('{embed}', embed));
         $('.wax-share a.twitter').attr('href', 'http://twitter.com/intent/tweet?status='
             + encodeURIComponent(document.title + ' (' + webpage + ')'));
         $('.wax-share a.facebook').attr('href', 'https://www.facebook.com/sharer.php?u='
