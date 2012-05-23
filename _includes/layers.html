@@ -5,7 +5,19 @@ An html block that generates links for the layer switcher.
 {% endcomment %}
 
 <div id="layerswitch" class="layers">
-    {% for layer in page.layers %}
-    <a data-control="layer" href="#{{ layer.name | downcase | cgi_escape }}">{{ layer.name }}</a>
-    {% endfor %}
+    {% if page.groups %}
+        {% for group in page.groups %}
+            {% assign index = forloop.index0 %}
+            <h3>{{group[index]}}</h3>
+            {% for layer in page.layers %}
+            {% if layer.group == index %}
+            <a data-control="layer" href="#{{ layer.name | downcase | cgi_escape }}">{{ layer.name }}</a>
+            {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        {% for layer in page.layers %}
+        <a data-control="layer" href="#{{ layer.name | downcase | cgi_escape }}">{{ layer.name }}</a>
+        {% endfor %}
+    {% endif %}
 </div>

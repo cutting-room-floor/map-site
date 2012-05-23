@@ -41,6 +41,9 @@ layers:
       api: "http://a.tiles.mapbox.com/v3/awidercircle.awc_don_rec_zip08.jsonp"
       center: {lat: 38.954386336035995, lon: -76.91768981933593, zoom: 11, ease: 1000}
       group: 1
+groups: 
+    - 0: "Local layers"
+    - 1: "Other layers"
 ---
 <div id="about" markdown="1">
 
