@@ -29,6 +29,7 @@ layers:
       api: "http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don.jsonp"
       center: {lat: 38.913793178492, lon: -77.02, zoom: 13, ease: 1000}
       group: 0
+      initial: true
     - name: "Recipients"
       api: "http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-rec.jsonp"
       center: {lat: 38.86585845552345, lon: -76.97635364532469, zoom: 14, ease: 2000}

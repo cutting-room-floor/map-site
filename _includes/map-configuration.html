@@ -59,6 +59,10 @@ main.layers({
         {% if layer.api or layer.center %}, {% endif %}
         group: {{layer.group}}
         {% endif %}
+        {% if layer.initial %}
+        {% if layer.api or layer.center or layer.group %}, {% endif %}
+        initial: {{layer.initial}}
+        {% endif %}
     }
     {% if forloop.last != true %}, {% endif %}
     {% endfor%}

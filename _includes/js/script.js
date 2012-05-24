@@ -179,7 +179,15 @@
                 }
             });
         }
-        if (cleanArray(Map.layerGroups).length > 0) Map.setOverlay();
+        if (cleanArray(Map.layerGroups).length > 0) {
+            Map.setOverlay();
+        } else {
+            if (layers) {
+                $.each(layers, function(key, layer) {
+                    if (layer.initial) Map.setOverlay(key);
+                });
+            }
+        }
     };
 
     Map.setHash = function() {
