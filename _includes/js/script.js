@@ -12,7 +12,10 @@
             if ($.inArray('zoomwheel', l.features) >= 0) {
                 handlers.push(new MM.MouseWheelHandler());
             }
-
+            if ($.inArray('static', l.features) >= 0) {
+                handlers = null;
+            }
+            
             MM_map = new MM.Map(el, new wax.mm.connector(t), null, handlers);
             MM_map.setCenterZoom({
                 lat: (l.center) ? l.center.lat : t.center[1],

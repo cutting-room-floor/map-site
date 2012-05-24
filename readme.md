@@ -80,6 +80,7 @@ The features object may contain any of the following:
 - `legend` Show a legend on the map. Legends from multiple layers will stack on top of each other
 - `share` Show a share button on the map with Twitter, Facebook links and an embed code for the map. The embedded view of the map will add a `class="embed"` to the `<body>` element of the page for easy theming. For instance, by default the embed layout is a full screen map with the layer switcher over it on the left. The header and content are hidden.
 - `bwdetect` Automatically detect low bandwidth contections and decrease the quality of the map images to accomodate
+- `static` Disables panning and zooming mouse and touch interaction on the map
 
 A map with all the options would look like this:
 
