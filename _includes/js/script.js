@@ -15,7 +15,7 @@
             if ($.inArray('static', l.features) >= 0) {
                 handlers = null;
             }
-            
+
             MM_map = new MM.Map(el, new wax.mm.connector(t), null, handlers);
             MM_map.setCenterZoom({
                 lat: (l.center) ? l.center.lat : t.center[1],
@@ -67,6 +67,8 @@
                         break;
                 }
             }
+            Map.parseHash();
+
             if (callback && typeof(callback) == 'function') callback();
         });
         return Map;
@@ -309,7 +311,6 @@ function cleanArray(actual){
 }
 
 $(function() {
-    Map.parseHash();
 
     $('body').on('click.map', '[data-control="layer"]', function(e) {
         var $this = $(this),
