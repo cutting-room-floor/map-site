@@ -245,9 +245,11 @@ function bindGeocoder() {
         // If this doesn't explicitly name the layer it should affect,
         // use the first layer in MB.maps
         e.preventDefault();
-        geocode($('input[type=text]', this).val(), m);
+        geocode($('input[type=text]', this).val(), m,
+            $('[data-control="geocode"]').attr('data-callback')
+        );
     });
-    var geocode = function(query, m) {
+    var geocode = function(query, m, callback) {
         query = encodeURIComponent(query);
         $('form.geocode').addClass('loading');
         reqwest({
@@ -290,6 +292,10 @@ function bindGeocoder() {
 
                         MM_map.setCenter({ lat: r.lat, lon: r.lon });
                     }
+                    
+                    callback = window[callback];
+                    
+                    if (callback && typeof(callback) == 'function') callback();
                 }
             }
         });
