@@ -440,8 +440,7 @@ a.zoomer {
   border-left:none;
 }
 .left .wax-attribution {
-  right:0;
-  left: auto;
+  left: 369px;
 }
 .left a.zoomin {
   right:10px;
@@ -643,3 +642,9 @@ padding: 20px;
 color: #41a900;
 font-weight: bold;
 }
+#fsq-attribution {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    height: 15px;
+    }
