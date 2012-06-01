@@ -22,6 +22,7 @@ time, mark, audio, video {
   font-size:100%;
   font:inherit;
   vertical-align:baseline;
+  outline-color: #41a900;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -55,6 +56,7 @@ textarea {
   font:13px/16px helvetica, arial, clean, sans-serif;
   -webkit-font-smoothing:antialiased;
   color: white;
+  outline-color: #41a900;
 }
 
 pre,
@@ -282,7 +284,7 @@ a.zoomer {
 .mmg-default {
     width: 20px;
     height: 40px;
-    background: url(../img/map_rev.png) -120px -30px;
+    background: url(img/map_rev.png) -120px -30px;
     left: -10px;
     top: -30px;
     }
@@ -612,4 +614,28 @@ float: left;
 position: relative;
 left: 20px;
 float: left;
+}
+.hidden {
+  display: none;
+  }
+a#showall {
+position: absolute;
+top: 20px;
+right: 20px;
+background: url(img/map_rev.png) no-repeat 86px -2px;
+padding: 5px 10px;
+background-color: black;
+padding-right: 30px;
+border-radius: 5px;
+text-decoration: none;
+}
+#no-venues {
+font-size: 18px;
+line-height: 28px;
+font-weight: 100;
+padding: 20px;
+}
+#no-venues strong {
+color: #41a900;
+font-weight: bold;
 }

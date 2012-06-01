@@ -66,10 +66,12 @@ foursquare.table = function() {
     
     var output = [];
     _.each(groups, function(items, state) {
-        output.push('<h3>'+ state + '</h3>');
+        output.push('<div class="state-group '+ state.toLowerCase() + '">' +
+            '<h3 class="state-label">'+ state + '</h3>');
         _.each(items, function(item) {
             output.push(template(item));    
         });
+        output.push('</div>');
     });
     
     $('#content').append(output.join(''));
@@ -80,7 +82,6 @@ foursquare.table = function() {
         if ($(this).parent().parent().hasClass('active')) {
             $(this).parent().parent().removeClass('active');
             $('#' + id).removeClass('active');
-            $('#map').addClass('unlocked');
         } else {
             var point = _.find(foursquare.venues, function(item) {
                 return item.id === id 
@@ -88,7 +89,6 @@ foursquare.table = function() {
             
             $('.mmg, .venue').removeClass('active');
             $(this).parent().parent().addClass('active');
-            $('#map').removeClass('unlocked');
             
             // Move map to adjusted center
             MM_map.easey = easey().map(MM_map)
@@ -195,12 +195,71 @@ foursquare.map = function() {
         e.preventDefault();
         $('[href=#' + $(this).attr('id') + ']').click();
     });
+    $('#showall').click(function(e) {
+        e.preventDefault();
+        $('.venue, .state-group').removeClass('hidden');
+        $('.venue, .mmg').removeClass('active');
+        $(this).addClass('hidden');
+        $('#no-venues').addClass('hidden');
+        $('input[type=text]', '[data-control="geocode"] form').val('');
+    });
 };
 
-// Function for adjusting the foursquare venues based on search
-function foursquareRefresh() {
+foursquare.refresh = function() {
+    MM_map.panBy($('#content').width() / 2, 0);
     
-}
+    // Remove active states
+    $('.venue, .mmg').removeClass('active');
+    $('.venue, .state-group').removeClass('hidden');
+    $('#no-venues, #showall').addClass('hidden');
+    
+    var radius = 8046.72,
+        closest = { dist: radius },
+        inRange = [MM_map.getCenter()];
+    
+    // Loop through venues and calculate distance
+    _.each(foursquare.venues, function(venue) {
+        var center = MM_map.getCenter(),
+            location = { lat: venue.location.lat, lon: venue.location.lng },
+            distance = MM.Location.distance(center, location);
+        
+        // Hide venues outsite radius,
+        if (distance > radius /* 5 miles in meters */) {
+            $('[href=#' + venue.id + ']').parent().parent().addClass('hidden');
+        } else {
+            if (distance < closest.dist) {
+                console.log('close');   
+                closest = { dist: distance, id: venue.id,  loc: location};
+                inRange.push(locationOffset(location));
+            }
+        }
+    });
+
+    // Hide labels
+    $('.state-group').each(function() {
+        if($('.venue', this).not('.hidden').size() === 0)
+            $(this).addClass('hidden');
+    });
+    
+    // Display a 'show all' link
+    $('#showall').removeClass('hidden');
+    
+    // Show 'no results' message'
+    if($('.venue').not('.hidden').size() === 0)
+        $('#no-venues').removeClass('hidden');
+        
+    // If there are results
+    if(closest.id) {
+        $('[href=#' + closest.id + ']').parent().parent().addClass('active');
+        $('#' + closest.id).addClass('active');
+        
+        // Set map to extents
+        MM_map.setExtent(inRange);
+        
+        // Center on point
+        MM_map.setCenterZoom(locationOffset(closest.loc), MM_map.getZoom() - 1);
+    }
+};
 
 // Calculate offset given #content
 function locationOffset(location) {
