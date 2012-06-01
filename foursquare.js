@@ -53,6 +53,7 @@ foursquare.table = function() {
         '<div class="venue">' +
             '<div class="location"><a href="#<%= id %>"><%= location.address %></a> ' +
                 '<% if(location.crossStreet) { %><%= location.crossStreet %><%}%>' +
+                '<% if(location.city !=="Washington") { %><br><em><%= location.city %></em><%}%>' +                
             '</div>' +
             '<% if(contact.formattedPhone) { %>' +
             '<div class="phone"><%= contact.formattedPhone %></div>' +

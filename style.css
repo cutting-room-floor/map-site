@@ -606,10 +606,13 @@ padding: 5px;
 #content .location {
 position: relative;
 left: 0;
-width: 175px;
+width: 177px;
 float: left;
 }
-#content .location a { display: block;}
+#content .location em {
+    font-style: italic;
+    }
+
 #content .phone {
 position: relative;
 left: 20px;
@@ -620,7 +623,7 @@ float: left;
   }
 a#showall {
 position: absolute;
-top: 20px;
+top: 15px;
 right: 20px;
 background: url(img/map_rev.png) no-repeat 86px -2px;
 padding: 5px 10px;
