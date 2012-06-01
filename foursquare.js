@@ -8,19 +8,22 @@ foursquare.venues = [];
 
 // Get venues
 foursquare.start = function() {
+    foursquare.geocoder();
     foursquare.getVenues();
 };
 
+// Default ajax params
+foursquare.params = {
+    client_id: '1SHOHFLYHC3KIQKMBMKRWHASORK0TPCNPPH04OQCT1Y5ZRGW',
+    client_secret: '2DMK0XSZL3ZMZDNR0G0UQ4ARJYN2HIJXL4FKXZ1WUALXZYZV',
+    v: '20120530',
+    callback: 'callback'
+};
 
 // Fetch venues from foursquare
 foursquare.getVenues = function() {
-    var params = {
-        client_id: '1SHOHFLYHC3KIQKMBMKRWHASORK0TPCNPPH04OQCT1Y5ZRGW',
-        client_secret: '2DMK0XSZL3ZMZDNR0G0UQ4ARJYN2HIJXL4FKXZ1WUALXZYZV',
-        v: '20120530',
-        callback: 'callback'
-    };
-    query = '?' + _.map(params, function(num, key) {
+
+    query = '?' + _.map(foursquare.params, function(num, key) {
         return key + "=" + num;
     }).join('&');
         
@@ -202,7 +205,7 @@ foursquare.map = function() {
         $('.venue, .mmg').removeClass('active');
         $(this).addClass('hidden');
         $('#no-venues').addClass('hidden');
-        $('input[type=text]', '[data-control="geocode"] form').val('');
+        $('input[type=text]', '#search form').val('').focus();
     });
 };
 
@@ -229,7 +232,6 @@ foursquare.refresh = function() {
             $('[href=#' + venue.id + ']').parent().parent().addClass('hidden');
         } else {
             if (distance < closest.dist) {
-                console.log('close');   
                 closest = { dist: distance, id: venue.id,  loc: location};
                 inRange.push(locationOffset(location));
             }
@@ -258,8 +260,55 @@ foursquare.refresh = function() {
         MM_map.setExtent(inRange);
         
         // Center on point
-        MM_map.setCenterZoom(locationOffset(closest.loc), MM_map.getZoom() - 1);
+        MM_map.setCenter(locationOffset(closest.loc));
     }
+};
+
+foursquare.geocoder = function() {
+    $('#search').submit(function(e) {
+        e.preventDefault();
+        geocode($('input[type=text]', this).val(), MM_map);
+    });
+    var geocode = function(query, m) {
+        params = '?' + _.map(foursquare.params, function(num, key) {
+            return key + "=" + num;
+        }).join('&');
+
+        query = encodeURIComponent(query);
+        $('form.geocode').addClass('loading');
+        reqwest({
+            url: 'https://api.foursquare.com/v2/venues/search'+ 
+                params + '&limit=1&intent=match&near=' + query,
+            type: 'jsonp',
+            jsonpCallback: 'callback',
+            success: function (r) {
+                
+                $('form.geocode').removeClass('loading');
+
+                if (r.response.geocode === undefined) {
+                    $('#geocode-error').text('This address cannot be found.').fadeIn('fast');
+                } else {
+                    r = r.response.geocode.feature;
+
+                    $('#geocode-error').hide();
+
+                    MM_map.setCenter({ 
+                        lat: r.geometry.center.lat, 
+                        lon: r.geometry.center.lng
+                    });
+
+                    var attribution = 'Search by ' + r.attribution;
+                    if ($('.wax-attribution').html().indexOf(attribution) < 0) {
+                        $('.wax-attribution').append(' - ' + attribution);
+                    }
+
+                    foursquare.refresh();
+                }
+            }
+        });
+    };
+
+
 };
 
 // Calculate offset given #content

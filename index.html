@@ -14,7 +14,7 @@
         <div id="no-venues" class="hidden">Oops! Looks like there are no <strong>sweetgreen</strong> locations within five miles of this address. Try another search.</div>
     </div></div>
     <div id="map" class="map"></div>
-    <div data-control='geocode' data-callback='foursquare.refresh' id="search">
+    <div id="search">
        <form class="geocode">
          <input placeholder='Enter your address' type="text">
          <input type='submit' />
@@ -50,7 +50,7 @@
                 'zoombox',
                 'zoompan',
             ]
-        }, foursquare.getVenues);
+        }, foursquare.start);
 
     </script>
 </body>
