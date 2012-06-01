@@ -5,12 +5,12 @@
     Map = function(el, l, callback) {
         wax.tilejson(l.api, function(t) {
             var handlers = [
-                new MM.DragHandler(),
-                new MM.DoubleClickHandler(),
-                new MM.TouchHandler()
+                easey.DragHandler(),
+                easey.DoubleClickHandler(),
+                easey.TouchHandler()
             ];
             if ($.inArray('zoomwheel', l.features) >= 0) {
-                handlers.push(new MM.MouseWheelHandler());
+                handlers.push(easey.MouseWheelHandler());
             }
             if ($.inArray('static', l.features) >= 0) {
                 handlers = null;
