@@ -210,7 +210,6 @@ foursquare.map = function() {
 };
 
 foursquare.refresh = function(coords) {
-    MM_map.panBy($('#content').width() / 2, 0);
 
     // Remove active states
     $('.venue, .mmg').removeClass('active');
@@ -218,7 +217,7 @@ foursquare.refresh = function(coords) {
     $('#no-venues, #showall').addClass('hidden');
 
     var radius = 8046.72,
-        closest = { dist: radius };
+        closest = { dist: radius, id: '', loc: {} };
 
     // Loop through venues and calculate distance
     _.each(foursquare.venues, function(venue) {
@@ -256,6 +255,8 @@ foursquare.refresh = function(coords) {
 
         // Center on point
         MM_map.zoom(14).center(locationOffset(closest.loc));
+    } else {
+        MM_map.zoom(8).center(locationOffset(coords));
     }
 };
 

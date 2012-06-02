@@ -289,7 +289,6 @@ function bindGeocoder() {
                                 .geojson(point);
                             MM_map.addLayer(MM_map.geocodeLayer);
                         }
-
                         MM_map.setCenter({ lat: r.lat, lon: r.lon });
                     }
                                         
