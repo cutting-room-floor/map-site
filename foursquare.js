@@ -26,7 +26,7 @@ foursquare.getVenues = function() {
     query = '?' + _.map(foursquare.params, function(num, key) {
         return key + "=" + num;
     }).join('&');
-        
+
     reqwest({
         url: 'https://api.foursquare.com/v2/lists/4fc674d7e4b07a1f71542757' + query,
         type: 'jsonp',
@@ -40,7 +40,7 @@ foursquare.getVenues = function() {
 
 // Extract relevant data from venues
 foursquare.processVenues = function(d) {
-    _.each(d.response.list.listItems.items, function(item, index) {        
+    _.each(d.response.list.listItems.items, function(item, index) {
         if (item.venue.location && item.venue.location.lat && item.venue.location.lng) {
             foursquare.venues.push(item.venue);
         }
@@ -56,28 +56,28 @@ foursquare.table = function() {
         '<div class="venue">' +
             '<div class="location"><a href="#<%= id %>"><%= location.address %></a> ' +
                 '<% if(location.crossStreet) { %><%= location.crossStreet %><%}%>' +
-                '<% if(location.city !=="Washington") { %><br><em><%= location.city %></em><%}%>' +                
+                '<% if(location.city !=="Washington") { %><br><em><%= location.city %></em><%}%>' +
             '</div>' +
             '<% if(contact.formattedPhone) { %>' +
             '<div class="phone"><%= contact.formattedPhone %></div>' +
             '<%}%>' +
         '</div>'
     );
-    
-    var groups = _.groupBy(foursquare.venues, function(item) { 
-        return item.location.state; 
+
+    var groups = _.groupBy(foursquare.venues, function(item) {
+        return item.location.state;
     });
-    
+
     var output = [];
     _.each(groups, function(items, state) {
         output.push('<div class="state-group '+ state.toLowerCase() + '">' +
             '<h3 class="state-label">'+ state + '</h3>');
         _.each(items, function(item) {
-            output.push(template(item));    
+            output.push(template(item));
         });
         output.push('</div>');
     });
-    
+
     $('#content').append(output.join(''));
     $('.location a').click(function(e) {
         e.preventDefault();
@@ -88,16 +88,16 @@ foursquare.table = function() {
             $('#' + id).removeClass('active');
         } else {
             var point = _.find(foursquare.venues, function(item) {
-                return item.id === id 
+                return item.id === id
             });
-            
+
             $('.mmg, .venue').removeClass('active');
             $(this).parent().parent().addClass('active');
-            
+
             // Move map to adjusted center
             MM_map.easey = easey().map(MM_map)
-                .to(MM_map.locationCoordinate(locationOffset({ 
-                    lat: point.location.lat, 
+                .to(MM_map.locationCoordinate(locationOffset({
+                    lat: point.location.lat,
                     lon: point.location.lng
                 })).zoomTo(MM_map.getZoom())).run(500, function() {
                     $('#' + id).addClass('active');
@@ -128,9 +128,9 @@ foursquare.map = function() {
         points.features.push({
             type: 'Feature',
             id: venue.id,
-            geometry: { 
+            geometry: {
                 type: 'Point',
-                coordinates: [venue.location.lng, venue.location.lat] 
+                coordinates: [venue.location.lng, venue.location.lat]
             },
             properties: {
                 name: venue.name,
@@ -139,7 +139,7 @@ foursquare.map = function() {
             }
         });
     });
-    
+
     foursquare.last = foursquare.venues.length;
     if (MM_map.venueLayer) {
         MM_map.venueLayer.geojson(points);
@@ -148,31 +148,31 @@ foursquare.map = function() {
             var d = document.createElement('div'),
                 overlay = document.createElement('div'),
                 anchor = document.createElement('div');
-            
+
             var template = _.template(
-                '<div class="location">' + 
+                '<div class="location">' +
                     '<span class="name fn"><%= name %></span>' +
-                    '<span class="adr">' +       
+                    '<span class="adr">' +
                         '<span class="address street-address"><%= location.address %></span>' +
                         '<% if (location.crossStreet) { %>' +
-                        '<span class="cross-street"><%= location.crossStreet %></span>' + 
+                        '<span class="cross-street"><%= location.crossStreet %></span>' +
                         '<% } %>' +
-                        '<span class="city-state">' + 
+                        '<span class="city-state">' +
                             '<span class="locality"><%= location.city %></span>, ' +
                             '<span class="region"><%= location.state %></span>' +
                         '</span>' +
                     '</span>' +
-                '</div>' + 
-                '<div class="foursquare">' + 
+                '</div>' +
+                '<div class="foursquare">' +
                     '<a href="https://foursquare.com/intent/venue.html" class="fourSq-widget" data-variant="wide" data-context="'+ x.id +'">Save to foursquare</a>' +
-                    '<div class="checkins">' + 
-                        '<span class="number"><%= stats.checkinsCount %></span>' + 
-                        '<span class="label">checkins</span>' + 
-                    '</div>' + 
-                    '<div class="users">' + 
-                        '<span class="number"><%= stats.usersCount %></span>' + 
-                        '<span class="label">users</span>' + 
-                    '</div>' + 
+                    '<div class="checkins">' +
+                        '<span class="number"><%= stats.checkinsCount %></span>' +
+                        '<span class="label">checkins</span>' +
+                    '</div>' +
+                    '<div class="users">' +
+                        '<span class="number"><%= stats.usersCount %></span>' +
+                        '<span class="label">users</span>' +
+                    '</div>' +
                 '</div>'
             );
             overlay.className = 'overlay';
@@ -184,16 +184,16 @@ foursquare.map = function() {
             d.id = x.id;
             d.className = 'mmg vcard';
             d.appendChild(anchor);
-            
+
             return d;
         }).geojson(points);
         MM_map.addLayer(MM_map.venueLayer);
     }
     MM_map.setCenter({
-        lat: MM_map.getCenter().lat, 
+        lat: MM_map.getCenter().lat,
         lon: MM_map.getCenter().lon
     });
-    
+
     // Handlers
     $('.mmg').click(function(e) {
         e.preventDefault();
@@ -211,21 +211,21 @@ foursquare.map = function() {
 
 foursquare.refresh = function(coords) {
     MM_map.panBy($('#content').width() / 2, 0);
-    
+
     // Remove active states
     $('.venue, .mmg').removeClass('active');
     $('.venue, .state-group').removeClass('hidden');
     $('#no-venues, #showall').addClass('hidden');
-    
+
     var radius = 8046.72,
         closest = { dist: radius };
-            
+
     // Loop through venues and calculate distance
     _.each(foursquare.venues, function(venue) {
         var center = coords,
             location = { lat: venue.location.lat, lon: venue.location.lng },
             distance = MM.Location.distance(center, location);
-        
+
         // Hide venues outsite radius,
         if (distance > radius /* 5 miles in meters */) {
             $('[href=#' + venue.id + ']').parent().parent().addClass('hidden');
@@ -241,19 +241,19 @@ foursquare.refresh = function(coords) {
         if($('.venue', this).not('.hidden').size() === 0)
             $(this).addClass('hidden');
     });
-    
+
     // Display a 'show all' link
     $('#showall').removeClass('hidden');
-    
+
     // Show 'no results' message'
     if($('.venue').not('.hidden').size() === 0)
         $('#no-venues').removeClass('hidden');
-        
+
     // If there are results
     if(closest.id) {
         $('[href=#' + closest.id + ']').parent().parent().addClass('active');
         $('#' + closest.id).addClass('active');
-        
+
         // Center on point
         MM_map.zoom(14).center(locationOffset(closest.loc));
     }
@@ -272,12 +272,12 @@ foursquare.geocoder = function() {
         query = encodeURIComponent(query);
         $('form.geocode').addClass('loading');
         reqwest({
-            url: 'https://api.foursquare.com/v2/venues/search'+ 
+            url: 'https://api.foursquare.com/v2/venues/search'+
                 params + '&limit=1&intent=match&near=' + query,
             type: 'jsonp',
             jsonpCallback: 'callback',
             success: function (r) {
-                
+
                 $('form.geocode').removeClass('loading');
 
                 if (r.response.geocode === undefined) {
@@ -292,8 +292,8 @@ foursquare.geocoder = function() {
                         $('.wax-attribution').append(' - ' + attribution);
                     }
 
-                    foursquare.refresh({ 
-                        lat: r.geometry.center.lat, 
+                    foursquare.refresh({
+                        lat: r.geometry.center.lat,
                         lon: r.geometry.center.lng
                     });
                 }
@@ -304,8 +304,8 @@ foursquare.geocoder = function() {
 
 // Calculate offset given #content
 function locationOffset(location) {
-    var offset = MM_map.locationPoint({ 
-            lat: location.lat, 
+    var offset = MM_map.locationPoint({
+            lat: location.lat,
             lon: location.lon
         });
     offset = MM_map.pointLocation({
