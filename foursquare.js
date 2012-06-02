@@ -209,7 +209,7 @@ foursquare.map = function() {
     });
 };
 
-foursquare.refresh = function() {
+foursquare.refresh = function(coords) {
     MM_map.panBy($('#content').width() / 2, 0);
     
     // Remove active states
@@ -218,12 +218,11 @@ foursquare.refresh = function() {
     $('#no-venues, #showall').addClass('hidden');
     
     var radius = 8046.72,
-        closest = { dist: radius },
-        inRange = [MM_map.getCenter()];
-    
+        closest = { dist: radius };
+            
     // Loop through venues and calculate distance
     _.each(foursquare.venues, function(venue) {
-        var center = MM_map.getCenter(),
+        var center = coords,
             location = { lat: venue.location.lat, lon: venue.location.lng },
             distance = MM.Location.distance(center, location);
         
@@ -233,7 +232,6 @@ foursquare.refresh = function() {
         } else {
             if (distance < closest.dist) {
                 closest = { dist: distance, id: venue.id,  loc: location};
-                inRange.push(locationOffset(location));
             }
         }
     });
@@ -256,11 +254,8 @@ foursquare.refresh = function() {
         $('[href=#' + closest.id + ']').parent().parent().addClass('active');
         $('#' + closest.id).addClass('active');
         
-        // Set map to extents
-        MM_map.setExtent(inRange);
-        
         // Center on point
-        MM_map.setCenter(locationOffset(closest.loc));
+        MM_map.zoom(14).center(locationOffset(closest.loc));
     }
 };
 
@@ -292,17 +287,15 @@ foursquare.geocoder = function() {
 
                     $('#geocode-error').hide();
 
-                    MM_map.setCenter({ 
-                        lat: r.geometry.center.lat, 
-                        lon: r.geometry.center.lng
-                    });
-
                     var attribution = 'Search by ' + r.attribution;
                     if ($('.wax-attribution').html().indexOf(attribution) < 0) {
                         $('.wax-attribution').append(' - ' + attribution);
                     }
 
-                    foursquare.refresh();
+                    foursquare.refresh({ 
+                        lat: r.geometry.center.lat, 
+                        lon: r.geometry.center.lng
+                    });
                 }
             }
         });
