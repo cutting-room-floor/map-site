@@ -307,8 +307,6 @@ foursquare.geocoder = function() {
             }
         });
     };
-
-
 };
 
 // Calculate offset given #content
