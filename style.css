@@ -174,7 +174,7 @@ form.geocode input[type=text] {
   -webkit-border-radius:3px;
   }
 form.geocode input[type=submit] {
-  background:url(img/map_rev.png) no-repeat -122px 0px;
+  background:url(img/map_rev.png) no-repeat -121px -1px;
   text-indent:-9999px;
   width:30px;
   height:30px;
