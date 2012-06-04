@@ -7,18 +7,18 @@ foursquare.venues = [];
 
 
 // Get venues
-foursquare.start = function() {
+foursquare.start = function() {    
+    // Default ajax params
+    foursquare.params = {
+        client_id: foursquare.settings.client_id,
+        client_secret: foursquare.settings.client_secret,
+        v: '20120530',
+        callback: 'callback'
+    };
     foursquare.geocoder();
     foursquare.getVenues();
 };
 
-// Default ajax params
-foursquare.params = {
-    client_id: '1SHOHFLYHC3KIQKMBMKRWHASORK0TPCNPPH04OQCT1Y5ZRGW',
-    client_secret: '2DMK0XSZL3ZMZDNR0G0UQ4ARJYN2HIJXL4FKXZ1WUALXZYZV',
-    v: '20120530',
-    callback: 'callback'
-};
 
 // Fetch venues from foursquare
 foursquare.getVenues = function() {
@@ -28,7 +28,7 @@ foursquare.getVenues = function() {
     }).join('&');
 
     reqwest({
-        url: 'https://api.foursquare.com/v2/lists/4fc674d7e4b07a1f71542757' + query,
+        url: 'https://api.foursquare.com/v2/lists/' + foursquare.settings.list + query,
         type: 'jsonp',
         jsonCallback: 'callback',
         success: function(d) {
@@ -216,7 +216,7 @@ foursquare.refresh = function(coords) {
     $('.venue, .state-group').removeClass('hidden');
     $('#no-venues, #showall').addClass('hidden');
 
-    var radius = 8046.72,
+    var radius = foursquare.settings.radius,
         closest = { dist: radius, id: '', loc: {} };
 
     // Loop through venues and calculate distance
