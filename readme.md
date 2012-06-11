@@ -81,6 +81,7 @@ The features object may contain any of the following:
 - `share` Show a share button on the map with Twitter, Facebook links and an embed code for the map. The embedded view of the map will add a `class="embed"` to the `<body>` element of the page for easy theming. For instance, by default the embed layout is a full screen map with the layer switcher over it on the left. The header and content are hidden.
 - `bwdetect` Automatically detect low bandwidth contections and decrease the quality of the map images to accomodate
 - `static` Disables panning and zooming mouse and touch interaction on the map
+- `layerHash` Add a bookmarkable suffix to the url that saves the layer selections
 
 A map with all the options would look like this:
 

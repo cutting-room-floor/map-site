@@ -67,8 +67,7 @@
                         break;
                 }
             }
-            Map.parseHash();
-
+            Map.bootstrap(l);
             if (callback && typeof(callback) == 'function') callback();
         });
         return Map;
@@ -310,7 +309,7 @@ function cleanArray(actual){
     return newArray;
 }
 
-$(function() {
+Map.bootstrap = function(l) {
 
     $('body').on('click.map', '[data-control="layer"]', function(e) {
         var $this = $(this),
@@ -325,8 +324,9 @@ $(function() {
             $('[data-control="layer"]').removeClass('active');
             window[m].setOverlay(id);
         }
-        Map.setHash();
+        if ($.inArray('layerHash', l.features) >= 0) Map.setHash();
     });
 
     bindGeocoder();
-});
+    Map.parseHash();
+};
