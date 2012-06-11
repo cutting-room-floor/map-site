@@ -318,8 +318,10 @@ Map.bootstrap = function(l) {
         var m = $('[data-control="geocode"]').attr('data-map') || 'main';
         e.preventDefault();
         if($this.hasClass('active')) {
-            $('[data-control="layer"]').removeClass('active');
-            window[m].removeOverlay(id);
+            if(Map.layers()[id].toggle) {
+                $('[data-control="layer"]').removeClass('active');
+                window[m].removeOverlay(id);
+            }
         } else {
             $('[data-control="layer"]').removeClass('active');
             window[m].setOverlay(id);
