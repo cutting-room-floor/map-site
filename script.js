@@ -152,7 +152,7 @@
         } else {
             var level = (l.level === 'base') ? 0 : 1;
             MM_map.removeLayerAt(level);
-            if (MM_map.legend) MM_map.legend.content(' ');
+            if (MM_map.legend) MM_map.legend.content();
             if (MM_map.interaction) MM_map.interaction.remove();
         }
     };
