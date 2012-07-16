@@ -72,56 +72,6 @@
 
  .wax-legend { position:relative; }
 
-/* ### Zoomer, close buttons, share ### */
- .close,
- .zoomer {
-  text-indent:-9999px;
-  background-image:url(/assets/tilestream-pro/images/controls.png);
-  background-position:60px 60px;
-  background-repeat:no-repeat;
-  overflow:hidden;
-  }
-
- .close:active,
- .zoomer:active {
-  border-color:#bbb;
-  background-color:#ddd;
-  box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-  -moz-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-  -webkit-box-shadow:inset rgba(0,0,0,0.1) 0px 1px 3px;
-  }
-
- .close {
-  top:4px;
-  right:4px;
-  width:18px;
-  height:18px;
-  background-position:-6px -6px;
-  }
-
- .zoomer {
-  width:28px;
-  height:28px;
-  top:10px;
-  left:10px;
-  z-index: 2;
-  }
-
- .zoomin {
-  background-position:-31px -1px;
-  left:39px;
-  border-radius:0px 3px 3px 0px;
-  -moz-border-radius:0px 3px 3px 0px;
-  -webkit-border-radius:0px 3px 3px 0px;
-  }
-
- .zoomout {
-  background-position:-61px -1px;
-  border-radius:3px 0px 0px 3px;
-  -moz-border-radius:3px 0px 0px 3px;
-  -webkit-border-radius:3px 0px 0px 3px;
-  }
-
  .share {
   clear:left;
   left:10px;

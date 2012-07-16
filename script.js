@@ -3,8 +3,28 @@
         MM_map,
         layers;
 
+        // Simplest way to create a map. Just provide an element id and
+// a tilejson url (or an array of many) and an optional callback
+// that takes one argument, the map.
+mapbox.auto = function(elem, url, callback) {
+    mapbox.load(url, function(opts) {
+
+        if (!(opts instanceof Array)) opts = [opts];
+
+        var tileLayers = [],
+            markerLayers = [];
+        for (var i = 0; i < opts.length; i++) {
+            if (opts[i].layer) tileLayers.push(opts[i].layer);
+            if (opts[i].markers) markerLayers.push(opts[i].markers);
+        }
+
+        var map = mapbox.map(elem, tileLayers.concat(markerLayers)).auto();
+        callback(map, opts);
+    });
+};
+
     Map = function(el, l, callback) {
-        mapbox.load(l.api, mapbox.auto(el, function(_, t) {
+        mapbox.auto(el, l.api, function(_, t) {
             MM_map = _;
             MM_map.centerzoom({
                 lat: (l.center) ? l.center.lat : t.center[1],
@@ -49,7 +69,7 @@
 
             Map.bootstrap(l);
             if (callback && typeof(callback) == 'function') callback();
-        }));
+        });
         return Map;
     };
 
