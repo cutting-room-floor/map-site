@@ -48,19 +48,17 @@
                         wax.mm.share(MM_map, t).appendTo($('body')[0]);
                         break;
                     case 'tooltips':
-                        MM_map.interaction = wax.mm.interaction()
-                            .map(MM_map)
-                            .tilejson(t)
-                            .on(wax.tooltip()
+                        MM_map.interaction = MM_map.interaction ||
+                            wax.mm.interaction().map(MM_map).tilejson(t);
+                        MM_map.interaction.on(wax.tooltip()
                                 .parent(MM_map.parent)
                                 .events()
                             );
                         break;
                     case 'movetips':
-                        MM_map.interaction = wax.mm.interaction()
-                            .map(MM_map)
-                            .tilejson(t)
-                            .on(wax.movetip()
+                        MM_map.interaction = MM_map.interaction ||
+                            wax.mm.interaction().map(MM_map).tilejson(t);
+                        MM_map.interaction.on(wax.movetip()
                                 .parent(MM_map.parent)
                                 .events()
                             );
