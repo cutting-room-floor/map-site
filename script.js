@@ -1,9 +1,8 @@
 (function(root) {
     var Map = {},
         layers;
-
     Map = function(el, l, callback) {
-        wax.tilejson(l.api, function(t) {
+        mapbox.load(l.api, function(t) {
             var handlers = [
                 new MM.DragHandler(),
                 new MM.DoubleClickHandler(),
@@ -16,11 +15,8 @@
                 handlers = null;
             }
 
-            MM_map = new MM.Map(el, new wax.mm.connector(t), null, handlers);
-            MM_map.setCenterZoom({
-                lat: (l.center) ? l.center.lat : t.center[1],
-                lon: (l.center) ? l.center.lon : t.center[0]
-            }, (l.center) ? l.center.zoom : t.center[2]);
+            MM_map = mapbox.map(el, new wax.mm.connector(t), null, handlers)
+            MM_map.setCenterZoom(l.center || t.center, l.center.zoom || t.zoom);
 
             if (l.zoomRange) {
                 MM_map.setZoomRange(l.zoomRange[0], l.zoomRange[1]);
@@ -28,18 +24,18 @@
                 MM_map.setZoomRange(t.minzoom, t.maxzoom);
             }
 
-            wax.mm.attribution(MM_map, t).appendTo(MM_map.parent);
+            MM_map.ui.attribution(t);
 
             for (var i = 0; i < l.features.length; i++) {
                 switch(l.features[i]) {
                     case 'zoompan':
-                        wax.mm.zoomer(MM_map).appendTo(MM_map.parent);
+                        MM_map.ui.zoomer();
                         break;
                     case 'zoombox':
-                        wax.mm.zoombox(MM_map);
+                        MM_map.ui.zoombox();
                         break;
                     case 'legend':
-                        MM_map.legend = wax.mm.legend(MM_map, t).appendTo(MM_map.parent);
+                        MM_map.ui.legend(t);
                         break;
                     case 'bwdetect':
                         wax.mm.bwdetect(MM_map);
@@ -48,18 +44,14 @@
                         wax.mm.share(MM_map, t).appendTo($('body')[0]);
                         break;
                     case 'tooltips':
-                        MM_map.interaction = wax.mm.interaction()
-                            .map(MM_map)
-                            .tilejson(t)
+                        MM_map.interaction
                             .on(wax.tooltip()
                                 .parent(MM_map.parent)
                                 .events()
                             );
                         break;
                     case 'movetips':
-                        MM_map.interaction = wax.mm.interaction()
-                            .map(MM_map)
-                            .tilejson(t)
+                        MM_map.interaction
                             .on(wax.movetip()
                                 .parent(MM_map.parent)
                                 .events()
@@ -109,18 +101,16 @@
                 return 'http://a.tiles.mapbox.com/v3/' + layerIds.join(',') + '.jsonp';
             };
 
-            wax.tilejson(compositedLayers(), function(t) {
+            mapbox.load(compositedLayers(), function(t) {
                 var level = (l && l.level === 'base') ? 0 : 1;
 
                 try {
-                    MM_map.setLayerAt(level, new wax.mm.connector(t));
+                    MM_map.setLayerAt(level, mapbox.layer().tilejson(tj));
                 } catch (e) {
-                    MM_map.insertLayerAt(level, new wax.mm.connector(t));
+                    MM_map.insertLayerAt(level, mapbox.layer().tilejson(t));
                 }
-                if (MM_map.interaction) MM_map.interaction.map(MM_map).tilejson(t);
-                if (MM_map.legend) {
-                    MM_map.legend.content(t);
-                }
+                if (MM_map.ui._legend) MM_map.ui._legend.content(t);
+                MM_map.interaction.tilejson(t);
             });
         }
 
@@ -130,8 +120,7 @@
                 zoom = l.center.zoom || MM_map.getZoom();
 
             if (l.center.ease > 0) {
-                MM_map.easey = easey().map(MM_map)
-                    .to(MM_map.locationCoordinate({ lat: lat, lon: lon })
+                MM_map.ease.to(MM_map.locationCoordinate({ lat: lat, lon: lon })
                     .zoomTo(zoom)).run(l.center.ease);
             } else {
                 MM_map.setCenterZoom({ lat: lat, lon: lon }, zoom);
@@ -152,8 +141,8 @@
         } else {
             var level = (l.level === 'base') ? 0 : 1;
             MM_map.removeLayerAt(level);
-            if (MM_map.legend) MM_map.legend.content();
-            if (MM_map.interaction) MM_map.interaction.remove();
+            if (MM_map.ui._legend) MM_map.ui._legend.content();
+            MM_map.interaction.tilejson({});
         }
     };
 
