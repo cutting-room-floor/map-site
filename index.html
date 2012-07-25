@@ -1,37 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Map Site</title>
+    <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/v0.6.2/mapbox.css" type="text/css" />
     <link rel="stylesheet" href="style.css" type="text/css" />
     <link rel="shortcut icon" href="http://mapbox.com/images/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="http://js.mapbox.com/mapbox.js/v0.5.4/mapbox.css" type="text/css" />
+
+    <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.2/mapbox.uncompressed.js'></script>
     <script src="ext/jquery.min.js"></script>
-    <script src='http://mapbox-js.s3.amazonaws.com/mapbox.js/v0.5.4/mapbox.uncompressed.js'></script>
-    <script src="ext/wax/wax.ext.js"></script>
-    <script src="script.js"></script>
-</head>
-<body class="right">
+    <script src="ext/wax.ext.js"></script>
+    <script src="ext/mapbox.jquery.js"></script>
+    <script src="ext/mapbox.jquery.geocoder.js"></script>
+  </head>
+
+  <body class="right">
     <div id="header"><div class="limiter">
         <img src="img/logo.png">
         <h1>Exploring A Wider Circle Donations</h1>
     </div></div>
-    <div id="content"><div class="limiter">
+
+    <!-- NOTE: data-map is set as the id of the map div here so that it applies to all controls in child nodes -->
+    <div id="content" data-map="map">
+      <div class="limiter">
+
         <div id="about">
-            <p>The Neighbor-to-Neighbor Program of <a href="http://www.awidercircle.org/">A Wider Circle</a> provides furniture and other home items to families living without these basics.</p>
-            <p>Browse the map to see who A Wider Circle has helped.</p>
+          <p>The Neighbor-to-Neighbor Program of <a href="http://www.awidercircle.org/">A Wider Circle</a> provides furniture and other home items to families living without these basics.</p>
+          <p>Browse the map to see who A Wider Circle has helped.</p>
         </div>
-        <div id="nav" class="layers">
-          <a data-control="layer" href="#donors">Donors</a>
-          <a data-control="layer" href="#recipients">Recipients</a>
-          <a data-control="layer" href="#both">Both</a>
-          <a data-control="layer" href="#zip">ZIP Codes</a>
+
+
+        <!-- Layer switcher -->
+        <div id="nav" class="layers" data-control="switcher">
+          <a data-group="1" data-toggle="true" data-lat="38.91379" data-lon="-77.02" data-zoom="13" href="#donors">Donors</a>
+          <a data-group="1" data-toggle="true" data-lat="38.86585" data-lon="-76.97635" data-zoom="14" href="recipients">Recipients</a>
+          <a data-group="1" data-toggle="true" data-lat="38.95438" data-lon="-76.91768" data-zoom="11" href="#zip">ZIP Codes</a>
         </div>
+
         <h2>The full story</h2>
-        <p>Or browse the story with inline navigation. <a data-control="map" href="#donors">See the donors</a> in NW DC.</p>
-        <p>Then move <a data-control='layer' href="#recipients">south east</a> to see where donations flow.
-        Finally, zoom out to <a data-control="layer" href="#zip">see the regional impact</a>.</p>
-        <h2>See your neighborhood</h2>
+        <p>Or browse the story with inline navigation. <a data-lat="38.91379" data-lon="-77.02" data-zoom="13" href="#">See the donors</a> in NW DC.</p>
+        <p>Then move <a data-lat="38.86585" data-lon="-76.97635" data-zoom="14" href="#">south east</a> to see where donations flow.
+        Finally, zoom out to <a data-lat="38.95438" data-lon="-76.91768" data-zoom="11" href="#">see the regional impact</a>.</p>
+
         <div data-control='geocode' id="search">
           <form class="geocode">
             <input placeholder='Search for an address' type="text">
@@ -39,79 +49,12 @@
             <div id='geocode-error'></div>
           </form>
         </div>
-    </div></div>
+
+      </div>
+    </div>
     <div id="map" class="map"></div>
 
-    <!-- External libraries and site script -->
-    
-    <!-- Site configuration -->
-    <script type="text/javascript">
-
-        // Make a new map in #map
-        var main = Map('map', {
-            api: 'http://a.tiles.mapbox.com/v3/mapbox.mapbox-light.jsonp',
-            center: {
-                lat: 38.8850033656251,
-                lon: -77.01439615889109,
-                zoom: 14
-            },
-            zoomRange: [0, 15],
-            features: [
-                'zoomwheel',
-                'tooltips',
-                'zoombox',
-                'zoompan',
-                'legend',
-                'share',
-                'layerHash'
-            ]
-        });
-
-        main.layers({
-            donors: {
-                api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don.jsonp',
-                center: {
-                    lat: 38.913793178492,
-                    lon: -77.02,
-                    zoom: 13,
-                    ease: 1000
-                },
-                group: 0,
-                initial: true
-            },
-            recipients: {
-                api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-rec.jsonp',
-                center: {
-                    lat: 38.86585845552345,
-                    lon: -76.97635364532469,
-                    zoom: 14,
-                    ease: 2000
-                },
-                group: 0
-            },
-            both: {
-                api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don,awidercircle.awc-addresses-rec.jsonp',
-                center: {
-                    lat: 38.90537696659096,
-                    lon: -76.94918823242188,
-                    zoom: 12,
-                    ease: 2000
-                },
-                group: 1,
-                toggle: true
-            },
-            zip: {
-                api: 'http://a.tiles.mapbox.com/v3/awidercircle.awc_don_rec_zip08.jsonp',
-                center: {
-                    lat: 38.954386336035995,
-                    lon: -76.91768981933593,
-                    zoom: 11,
-                    ease: 1000
-                },
-                group: 1,
-                toggle: true
-            }
-        });
-    </script>
+    <script src="script.js"></script>
+  </script>
 </body>
 </html>
