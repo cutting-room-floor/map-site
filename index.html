@@ -1,60 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Map Site</title>
-    <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/v0.6.2/mapbox.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <link rel="shortcut icon" href="http://mapbox.com/images/favicon.ico" type="image/x-icon" />
+    <head>
+        <meta charset="UTF-8" />
+        <title>Map Site</title>
+        <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/v0.6.2/mapbox.css" type="text/css" />
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <link rel="shortcut icon" href="http://mapbox.com/images/favicon.ico" type="image/x-icon" />
 
-    <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.2/mapbox.uncompressed.js'></script>
-    <script src="ext/jquery.min.js"></script>
-    <script src="ext/wax.ext.js"></script>
-    <script src="ext/mapbox.jquery.js"></script>
-    <script src="ext/mapbox.jquery.geocoder.js"></script>
-  </head>
+        <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.2/mapbox.js'></script>
+        <script src="ext/jquery.min.js"></script>
+        <script src="ext/wax.ext.js"></script>
+        <script src="ext/mapbox.jquery.js"></script>
+        <script src="ext/mapbox.jquery.geocoder.js"></script>
+    </head>
 
-  <body class="right">
-    <div id="header"><div class="limiter">
-        <img src="img/logo.png">
-        <h1>Exploring A Wider Circle Donations</h1>
-    </div></div>
+    <body class="right">
+        <div id="header"><div class="limiter">
+                <img alt='logo' src="img/logo.png" />
+                <h1>Exploring A Wider Circle Donations</h1>
+        </div></div>
 
-    <!-- NOTE: data-map is set as the id of the map div here so that it applies to all controls in child nodes -->
-    <div id="content" data-map="map">
-      <div class="limiter">
+        <!-- NOTE: data-map is set as the id of the map div here so that it applies to all controls in child nodes -->
+        <div id="content" data-map="map">
+            <div class="limiter">
 
-        <div id="about">
-          <p>The Neighbor-to-Neighbor Program of <a href="http://www.awidercircle.org/">A Wider Circle</a> provides furniture and other home items to families living without these basics.</p>
-          <p>Browse the map to see who A Wider Circle has helped.</p>
+                <div id="about">
+                    <p>The Neighbor-to-Neighbor Program of <a href="http://www.awidercircle.org/">A Wider Circle</a> provides furniture and other home items to families living without these basics.</p>
+                    <p>Browse the map to see who A Wider Circle has helped.</p>
+                </div>
+
+                <!-- Layer switcher -->
+                <div id="nav" class="layers" data-control="switcher">
+                    <a data-group="1" data-toggle="true" data-lat="38.91379" data-lon="-77.02" data-zoom="13" href="#donors">Donors</a>
+                    <a data-group="1" data-toggle="true" data-lat="38.86585" data-lon="-76.97635" data-zoom="14" href="recipients">Recipients</a>
+                    <a data-group="1" data-toggle="true" data-lat="38.95438" data-lon="-76.91768" data-zoom="11" href="#zip">ZIP Codes</a>
+                </div>
+
+                <h2>The full story</h2>
+                <p>Or browse the story with inline navigation. <a data-lat="38.91379" data-lon="-77.02" data-zoom="13" href="#">See the donors</a> in NW DC.</p>
+                <p>Then move <a data-lat="38.86585" data-lon="-76.97635" data-zoom="14" href="#">south east</a> to see where donations flow.
+                Finally, zoom out to <a data-lat="38.95438" data-lon="-76.91768" data-zoom="11" href="#">see the regional impact</a>.</p>
+
+                <div data-control='geocode' id="search">
+                    <form class="geocode">
+                        <input placeholder='Search for an address' type="text">
+                        <input type='submit' />
+                        <div id='geocode-error'></div>
+                    </form>
+                </div>
+
+            </div>
         </div>
-
-
-        <!-- Layer switcher -->
-        <div id="nav" class="layers" data-control="switcher">
-          <a data-group="1" data-toggle="true" data-lat="38.91379" data-lon="-77.02" data-zoom="13" href="#donors">Donors</a>
-          <a data-group="1" data-toggle="true" data-lat="38.86585" data-lon="-76.97635" data-zoom="14" href="recipients">Recipients</a>
-          <a data-group="1" data-toggle="true" data-lat="38.95438" data-lon="-76.91768" data-zoom="11" href="#zip">ZIP Codes</a>
-        </div>
-
-        <h2>The full story</h2>
-        <p>Or browse the story with inline navigation. <a data-lat="38.91379" data-lon="-77.02" data-zoom="13" href="#">See the donors</a> in NW DC.</p>
-        <p>Then move <a data-lat="38.86585" data-lon="-76.97635" data-zoom="14" href="#">south east</a> to see where donations flow.
-        Finally, zoom out to <a data-lat="38.95438" data-lon="-76.91768" data-zoom="11" href="#">see the regional impact</a>.</p>
-
-        <div data-control='geocode' id="search">
-          <form class="geocode">
-            <input placeholder='Search for an address' type="text">
-            <input type='submit' />
-            <div id='geocode-error'></div>
-          </form>
-        </div>
-
-      </div>
-    </div>
-    <div id="map" class="map"></div>
-
-    <script src="script.js"></script>
-  </script>
-</body>
+        <div id="map" class="map"></div>
+        <script src="script.js"></script>
+    </body>
 </html>

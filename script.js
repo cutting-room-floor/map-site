@@ -1,4 +1,3 @@
-
 var TileJSONs = [
     'http://a.tiles.mapbox.com/v3/mapbox.mapbox-light.jsonp',
     'http://a.tiles.mapbox.com/v3/awidercircle.awc-addresses-don.jsonp',
