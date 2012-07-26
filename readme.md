@@ -78,7 +78,9 @@ To link to a geographic location add at least one of the following data attribut
 - `data-lon`: The longitude of the location.
 - `data-zoom`: The zoom level.
 
-    <a `data-lat="39" data-lon"77" data-zoom="10" href="#">
+```html
+<a data-lat="39" data-lon"77" data-zoom="10" href="#">
+```
 
 If you specify any of these, the link will be automatically bound to the map.
 
@@ -89,10 +91,12 @@ Use `data-control="switcher"` to bind all links in child elements to the layer s
 - `data-group`: Specifies the group, defaulting to 0. Only one layer per group can be enabled at any time.
 - `data-toggle="true"`: Allow a layer to be toggled off.
 
-    <div data-control="switcher">
-        <a data-group="0" href="#streets">Streets</a>
-        <a data-group="1" href="#construction">Construction projects</a>
-        <a data-group="1" href="#building">Building permits</a>
-    </div>
+```html
+<div data-control="switcher">
+    <a data-group="0" href="#streets">Streets</a>
+    <a data-group="1" href="#construction">Construction projects</a>
+    <a data-group="1" href="#building">Building permits</a>
+</div>
+```
 
 Easing links can be used together with the layer switcher.
