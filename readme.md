@@ -31,12 +31,7 @@ There are three layout classes that can be applied to the `body` element:
 
 ## CSS styles
 
-Most of the hard work on a microsite build is template design implemented through CSS. This template by default is simple and clean, and it's based on the tiles.mapbox.com full map view. This design and be completely overridden by applying new CSS styles.
-
-CSS styles are in two files:
-
-- `style.css` contains all the layout and typographic styles as well as some overridden styles for map controls, as well as a [reset stylesheet](http://meyerweb.com/eric/tools/css/reset/). Implement your design by editing this file.
-- `map.css` holds the default map styles from tiles.mapbox.com embeds.
+Most of the hard work on a microsite build is template design implemented through CSS. This template by default is simple and clean, and it's based on the tiles.mapbox.com full map view. This design and be completely overridden by applying new CSS styles. `style.css` contains all the layout and typographic styles as well as some overridden styles for map controls, as well as a [reset stylesheet](http://meyerweb.com/eric/tools/css/reset/). Implement your design by editing this file.
 
 ## Javascript interaction
 
@@ -46,6 +41,8 @@ of this site.
 
 Additional integration is added with `mapbox.jquery.js`, which automatically binds
 links that control the map - see the navigation links for examples.
+
+All the following controls require that the id of the element containing the map be specified using the `data-control` attribute. In this case it is `data-control="map"`. This attribute may be placed in any of the controls' parent elements.
 
 ### Address search
 
@@ -72,3 +69,22 @@ the map accordingly. If the geocoder has a successful response to a search, it
 will center the map and zoom it to show the bounding box extent of that response. If
 the bounding box is small enough to zoom the map to its maximum zoom, the geocoder
 will also place a pin with a star over the response's exact location.
+
+
+### Easing links
+To link to a geographic location add at least one of the following data attributes:
+
+- `data-lat`: The latitude of the location.
+- `data-lon`: The longitude of the location.
+- `data-zoom`: The zoom level.
+
+If you specify any of these, the link will be automatically bound to the map.
+
+
+### Layer Switcher
+Use `data-control="switcher"` to bind all links in child elements to the layer switcher function. Specify the layer by setting the `href` attribute of anchors to the layer's name. There are two optional layer attributes:
+
+- `data-group`: Specifies the group, defaulting to 0. Only one layer per group can be enabled at any time.
+- `data-toggle="true"`: Allow a layer to be toggled off.
+
+Easing links can be used together with the layer switcher.
