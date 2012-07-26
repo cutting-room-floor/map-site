@@ -91,6 +91,7 @@ body > div {
   bottom:0;
   left:0;
   z-index:0;
+  background: #e8e8e8;
 }
 #header {
   position:absolute;
@@ -210,12 +211,12 @@ a.zoomer {
   top:60px;
 }
 
-.wax-tooltip {
+.map-tooltip {
   left:auto;
   right:330px;
   top:60px;
 }
-.wax-legends {
+.map-legends {
   left:auto;
   right:330px;
   width:290px;
@@ -259,7 +260,7 @@ a.zoomer {
   border-left:none;
   border-right:1px solid #ccc;
 }
-.left .wax-attribution {
+.left .map-attribution {
   left:320px;
 }
 .left a.zoomin {
@@ -272,10 +273,10 @@ a.zoomer {
   left:330px;
   z-index:2;
 }
-.left .wax-tooltip {
+.left .map-tooltip {
   right:10px;
 }
-.left .wax-legends {
+.left .map-legends {
   right:10px;
 }
 
@@ -304,11 +305,11 @@ a.zoomer {
 .hero a.zoomer {
   top:10px;
 }
-.hero .wax-tooltip {
+.hero .map-tooltip {
   top:10px;
   right:10px;
 }
-.hero .wax-legends {
+.hero .map-legends {
   right:10px;
 }
 .hero .share {
@@ -347,11 +348,11 @@ a.zoomer {
 .embed a.zoomer {
   top:10px;
 }
-.embed .wax-tooltip {
+.embed .map-tooltip {
   top:10px;
   right:10px;
 }
-.embed .wax-legends {
+.embed .map-legends {
   right:10px;
 }
 .embed .share {
